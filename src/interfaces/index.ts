@@ -1,5 +1,23 @@
-import { IUser, IUserState } from './userInterface';
-import { IProject, IProjectState } from './projectInterface';
-import { IComment, ICommentState } from './commentInterface';
+import { SetStateProp, ISetState, ActionType, IUser, IUpdateUser, IRegisterUser, IUpdUser, IBoolUser, IRegisterPage, ILogin, IUserState } from './userInterface';
+import { IProject, IProjectState, IUpdProj } from './projectInterface';
+import { IComment, ICommentState, CommentListProps } from './commentInterface';
 
-export type { IUser, IProject, IUserState, IProjectState, IComment, ICommentState };
+export type {
+  SetStateProp,
+    ISetState,
+  ActionType,
+  IUser,
+  IUpdateUser,
+  IUpdUser,
+  IRegisterUser,
+  IBoolUser,
+  IRegisterPage,
+  ILogin,
+  IProject,
+  IUpdProj,
+  IUserState,
+  IProjectState,
+  IComment,
+  ICommentState,
+  CommentListProps,
+};

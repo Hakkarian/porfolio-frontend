@@ -1,5 +1,5 @@
-import { register } from './userOperation';
-import { getAllProjects } from './projectOperation';
-import { getAllComments } from './commentOperation';
+import { register, login, currenti, updUser } from './userOperation';
+import { getAllProjects, addProject, updateProject } from './projectOperation';
+import { getAllComments, addComment, updComment, delComment } from './commentOperation';
 
-export { register, getAllProjects, getAllComments };
+export { register, login, currenti, updUser, getAllProjects, getAllComments, addProject, addComment, updComment, delComment, updateProject };

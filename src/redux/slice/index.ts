@@ -1,5 +1,5 @@
 import userReducer from "./userSlice";
-import projectReducer from './projectSlice';
-import commentReducer from './commentSlice';
+import projectReducer from "./projectSlice";
+import commentReducer from "./commentSlice";
 
-export {userReducer, projectReducer, commentReducer}
+export { userReducer, projectReducer, commentReducer };

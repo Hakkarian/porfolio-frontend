@@ -12,3 +12,7 @@ export interface ICommentState {
     isLoading: boolean,
     error: string | null
 }
+
+export interface CommentListProps {
+    projectId: string
+}
