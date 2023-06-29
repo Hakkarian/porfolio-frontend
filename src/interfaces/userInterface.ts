@@ -44,6 +44,7 @@ export interface IBoolUser {
   birthday: boolean;
   location: boolean;
   phone: boolean;
+  avatar: boolean;
 }
 
 export interface IRegisterPage {

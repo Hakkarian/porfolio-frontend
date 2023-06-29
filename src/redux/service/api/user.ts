@@ -44,7 +44,29 @@ const userApi = {
     try {
       console.log('upd api', data);
       setToken(token);
-      const result = await instance.patch(`/users/${id}/update`, data);
+      const formData = new FormData();
+      const { username, email, location, birthday, phone, avatar } = data;
+
+      if (username) {
+        formData.append("avatar", username);
+      }
+      if (email) {
+        formData.append("email", email);
+      }
+      if (location) {
+        formData.append("location", location);
+      }
+      if (birthday) {
+        formData.append("birthday", birthday);
+      }
+      if (phone) {
+        formData.append("phone", phone);
+      }
+      if (avatar) {
+        console.log('avatar api', avatar)
+        formData.append("avatar", avatar as string | Blob);
+      }
+      const result = await instance.patch(`/users/${id}/update`, formData);
       console.log('upd api result', result)
       return result;
     } catch (error) {

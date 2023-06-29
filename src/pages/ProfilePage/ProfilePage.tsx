@@ -1,5 +1,5 @@
 import { Formik, Form, Field } from 'formik'
-import { FC, useState, MouseEvent, Dispatch, SetStateAction } from 'react'
+import { FC, useState, MouseEvent, Dispatch, SetStateAction, ChangeEvent } from 'react'
 import * as Yup from 'yup';
 import { birthdayRegex, emailRegex, locationRegex, nameRegex, phoneRegex } from '../../interfaces/regex';
 import { useSelector } from 'react-redux';
@@ -45,21 +45,25 @@ const initialValues = {
     email: "",
     birthday: "",
     location: "",
-    phone: ""
+  phone: "",
+    avatar: null
 }
 
 const ProfilePage: FC = () => {
   const { user } = useSelector(selectUser);
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
   console.log('user id', user)
+  const [avatar, setAvatar] = useState<File | null>(null);
   const [edit, setEdit] = useState({
-        username: false,
-        email: false,
-        birthday: false,
-        location: false,
-        phone: false
-  })
-   console.log("editState", edit);
+    username: false,
+    email: false,
+    birthday: false,
+    location: false,
+    phone: false,
+    avatar: false,
+  });
+  console.log("editState", edit);
+  console.log('avatar state', user.avatar || user.user.avatar);
     const handleSubmit = () => {
 
   }
@@ -78,13 +82,27 @@ const ProfilePage: FC = () => {
   ) => {
     const { name } = e.target as HTMLButtonElement;
 
-    if (values[name] === "") {
+    if (values[name] === "" || null) {
       alert(`${name} must not be empty`)
+    }
+
+    if (name === 'avatar') {
+      handleUpdate({ [name]: avatar }, name, setEdit, dispatch);
+      setAvatar(null);
+      return;
     }
 
     handleUpdate({ [name]: values[name] }, name, setEdit, dispatch);
     
   };
+
+  const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    console.log("selectedFile")
+    if (selectedFile) {
+      setAvatar(selectedFile);
+    }
+  }
   
   return (
     <Formik
@@ -96,18 +114,36 @@ const ProfilePage: FC = () => {
         console.log('form', values)
         return (
           <Form>
-            <label>
-              <Field type="file" name="avatar" />
-            </label>
+            {edit.avatar ? (
+              <>
+                <button
+                  type="button"
+                  name="avatar"
+                  onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
+                >
+                  Confirm
+                </button>
+                <input
+                  type="file"
+                  name="avatar"
+                  onChange={handleAvatarChange}
+                />
+              </>
+            ) : (
+              <>
+                <button type="button" name="avatar" onClick={handleEdit}>
+                  Edit
+                </button>
+                  {user.avatar && <img src={user.avatar.url || user.user.avatar.url} alt="avatar" />}
+              </>
+            )}
             <label>
               {edit.username ? (
                 <>
                   <button
                     type="button"
                     name="username"
-                    onClick={(e) =>
-                      handleUpd(e, setEdit, dispatch, values)
-                    }
+                    onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
                   >
                     Confirm
                   </button>
@@ -139,9 +175,7 @@ const ProfilePage: FC = () => {
                   <button
                     type="button"
                     name="email"
-                    onClick={(e) =>
-                      handleUpd(e, setEdit, dispatch, values)
-                    }
+                    onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
                   >
                     Confirm
                   </button>
@@ -173,9 +207,7 @@ const ProfilePage: FC = () => {
                   <button
                     type="button"
                     name="birthday"
-                    onClick={(e) =>
-                      handleUpd(e, setEdit, dispatch, values)
-                    }
+                    onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
                   >
                     Confirm
                   </button>
@@ -207,9 +239,7 @@ const ProfilePage: FC = () => {
                   <button
                     type="button"
                     name="location"
-                    onClick={(e) =>
-                      handleUpd(e, setEdit, dispatch, values)
-                    }
+                    onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
                   >
                     Confirm
                   </button>

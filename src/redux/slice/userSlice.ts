@@ -41,7 +41,7 @@ const userSlice = createSlice({
       .addCase(updUser.fulfilled, (state, action) => {
         state.isLoading = false;
         console.log('update slice', action.payload?.data);
-        state.user = action.payload?.data;
+        state.user = action.payload?.data.user;
         state.token = action.payload?.data.token;
       })
 });
