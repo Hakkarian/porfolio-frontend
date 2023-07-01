@@ -1,9 +1,13 @@
 import { FC, lazy, Suspense, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 import { currenti } from '../../redux/operations';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import AppBar from './AppBar';
+import PrivateView from '../../views/PrivateView';
+import RestrictedView from '../../views/ResctrictedView';
+import { useSelector } from 'react-redux';
+import { selectToken } from '../../redux/selectors';
 
 const HomePage = lazy(() => import("../../pages/HomePage"));
 const ProjectPage = lazy(() => import('../../pages/ProjectPage'));
@@ -12,25 +16,28 @@ const LoginPage = lazy(() => import("../../pages/LoginPage"));
 const ProfilePage = lazy(() => import("../../pages/ProfilePage"));
 
 const App: FC = () => {
+  const token = useSelector(selectToken);
   const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
 
   useEffect(() => {
-    dispatch(currenti());
-  }, [dispatch])
+    if (token) {
+      dispatch(currenti());
+    }
+  }, [dispatch, token])
   return (
     <>
-      <NavLink to="/projects">Projects</NavLink>
-      <NavLink to="/user">User</NavLink>
-      <NavLink to="/register">Register</NavLink>
-      <NavLink to="/login">Login</NavLink>
-
+      <AppBar />
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route index element={<HomePage />} />
           <Route path="/projects" element={<ProjectPage />} />
-          <Route path="/user" element={<ProfilePage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route element={<PrivateView />}>
+            <Route path="/user" element={<ProfilePage />} />
+          </Route>
+          <Route element={<RestrictedView />}>
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+          </Route>
         </Routes>
       </Suspense>
     </>

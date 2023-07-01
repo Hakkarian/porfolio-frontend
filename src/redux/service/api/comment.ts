@@ -27,12 +27,10 @@ const commentsApi = {
   ) => {
     try {
       setToken(token);
-      console.log("comment upd api", data, token);
       const { data: result } = await instance.patch(
         `projects/${data.projectId}/comments/${data.id}`,
         data
       );
-      console.log("comment api result");
       return result;
     } catch (error) {
       console.log(error);
@@ -41,7 +39,6 @@ const commentsApi = {
   deleteComment: async (data: { projectId: string, id: string }, token: string) => {
     try {
       setToken(token);
-      console.log('del comment', data)
       const {data: result} = await instance.delete(`/projects/${data.projectId}/comments/${data.id}`);
       return result;
     } catch (error) {

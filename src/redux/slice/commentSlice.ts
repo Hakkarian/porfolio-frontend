@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { IComment, ICommentState } from "../../interfaces";
 import { getAllComments, addComment, updComment, delComment } from "../operations";
 import { pending, rejected } from "../../utils";
@@ -29,7 +29,6 @@ const commentSlice = createSlice({
       })
       .addCase(addComment.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log("comment slice", action.payload);
         state.comments.push(action.payload);
       })
       .addCase(updComment.fulfilled, (state, action) => {

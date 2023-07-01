@@ -19,10 +19,10 @@ export const addProject = createAsyncThunk('project/add', async (data: any, {rej
     }
 })
 
-export const updateProject = createAsyncThunk('project/upd', async (data: any, { rejectWithValue }) => {
+export const updateProject = createAsyncThunk('project/upd', async (data: any, { getState, rejectWithValue }) => {
     try {
-        const result = await projectApi.updProject(data);
-        console.log('upd oper', data)
+        const { user } = getState() as any;
+        const result = await projectApi.updProject(data, user.token);
         return result;
     } catch (error: any) {
         rejectWithValue(error.response)

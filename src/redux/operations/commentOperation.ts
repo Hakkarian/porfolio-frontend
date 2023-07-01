@@ -6,8 +6,8 @@ const getAllComments = createAsyncThunk(
     try {
         const result = await commentsApi.getAllComments(data);
         return result;
-    } catch (error) {
-        rejectWithValue(error)
+    } catch (error: any) {
+        rejectWithValue(error.response)
     }
     }
 )
@@ -19,7 +19,7 @@ const addComment = createAsyncThunk('comment/add', async (data: {content: string
         const result = await commentsApi.addComment(data, user.token);
         console.log('comment after', result)
         return result;
-    } catch (error) {
+    } catch (error: any) {
         rejectWithValue(error)
     }
 })
@@ -30,8 +30,8 @@ const updComment = createAsyncThunk('comment/upd', async (data: { content: strin
         console.log('commment upd oper', data, user.token);
         const result = await commentsApi.updateComment(data, user.token);
         return result
-    } catch (error) {
-        rejectWithValue(error);
+    } catch (error: any) {
+        rejectWithValue(error.response);
     }
 })
 
@@ -46,8 +46,8 @@ const delComment = createAsyncThunk(
       console.log("commment del oper", user.token);
       const result = await commentsApi.deleteComment(data, user.token);
       return result;
-    } catch (error) {
-      rejectWithValue(error);
+    } catch (error: any) {
+      rejectWithValue(error.response);
     }
   }
 );

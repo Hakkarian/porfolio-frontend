@@ -51,8 +51,8 @@ const initialValues = {
 
 const ProfilePage: FC = () => {
   const { user } = useSelector(selectUser);
+  console.log('user')
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
-  console.log('user id', user)
   const [avatar, setAvatar] = useState<File | null>(null);
   const [edit, setEdit] = useState({
     username: false,
@@ -62,8 +62,6 @@ const ProfilePage: FC = () => {
     phone: false,
     avatar: false,
   });
-  console.log("editState", edit);
-  console.log('avatar state', user.avatar || user.user.avatar);
     const handleSubmit = () => {
 
   }
@@ -82,9 +80,9 @@ const ProfilePage: FC = () => {
   ) => {
     const { name } = e.target as HTMLButtonElement;
 
-    if (values[name] === "" || null) {
-      alert(`${name} must not be empty`)
-    }
+    // if (values[name] === "" || null) {
+    //   alert(`${name} must not be empty`)
+    // }
 
     if (name === 'avatar') {
       handleUpdate({ [name]: avatar }, name, setEdit, dispatch);
@@ -98,7 +96,6 @@ const ProfilePage: FC = () => {
 
   const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
-    console.log("selectedFile")
     if (selectedFile) {
       setAvatar(selectedFile);
     }
@@ -106,12 +103,12 @@ const ProfilePage: FC = () => {
   
   return (
     <Formik
+      enableReinitialize
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
       {({ errors, values }) => {
-        console.log('form', values)
         return (
           <Form>
             {edit.avatar ? (
@@ -134,7 +131,12 @@ const ProfilePage: FC = () => {
                 <button type="button" name="avatar" onClick={handleEdit}>
                   Edit
                 </button>
-                  {user.avatar && <img src={user.avatar.url || user.user.avatar.url} alt="avatar" />}
+                {user?.avatar && (
+                  <img
+                    src={user?.avatar.url || user?.user.avatar.url}
+                    alt="avatar"
+                  />
+                )}
               </>
             )}
             <label>
@@ -151,7 +153,7 @@ const ProfilePage: FC = () => {
                     type="name"
                     name="username"
                     placeholder="Enter your name..."
-                    value={values.username || user.username}
+                    defaultValue={user.username}
                   />
                 </>
               ) : (
@@ -163,7 +165,7 @@ const ProfilePage: FC = () => {
                     type="name"
                     name="username"
                     placeholder="Enter your name..."
-                    value={values.username || user.username}
+                    value={user?.username}
                     readOnly
                   />
                 </>
@@ -183,7 +185,7 @@ const ProfilePage: FC = () => {
                     type="email"
                     name="email"
                     placeholder="Enter your email..."
-                    value={values.email || user.email}
+                    defaultValue={user.email}
                   />
                 </>
               ) : (
@@ -195,7 +197,7 @@ const ProfilePage: FC = () => {
                     type="email"
                     name="email"
                     placeholder="Enter your email..."
-                    value={values.email || user.email}
+                    value={user?.email || ""}
                     readOnly
                   />
                 </>
@@ -215,7 +217,7 @@ const ProfilePage: FC = () => {
                     type="date"
                     name="birthday"
                     placeholder="Enter your birthday..."
-                    value={values.birthday || user.birthday}
+                    defaultValue={user.birthday}
                   />
                 </>
               ) : (
@@ -227,7 +229,7 @@ const ProfilePage: FC = () => {
                     type="date"
                     name="birthday"
                     placeholder="Enter your birthday..."
-                    value={values.birthday || user.birthday}
+                    value={user?.birthday || ""}
                     readOnly
                   />
                 </>
@@ -247,7 +249,7 @@ const ProfilePage: FC = () => {
                     type="name"
                     name="location"
                     placeholder="Enter your location..."
-                    value={values.location || user.location}
+                    defaultValue={user.location}
                   />
                 </>
               ) : (
@@ -259,7 +261,7 @@ const ProfilePage: FC = () => {
                     type="name"
                     name="location"
                     placeholder="Enter your location..."
-                    value={values.location || user.location}
+                    value={user?.location || ""}
                     readOnly
                   />
                 </>
@@ -279,7 +281,7 @@ const ProfilePage: FC = () => {
                     type="text"
                     name="phone"
                     placeholder="Enter your phone..."
-                    value={values.phone || user.phone}
+                    defaultValue={user.phone}
                   />
                 </>
               ) : (
@@ -291,7 +293,7 @@ const ProfilePage: FC = () => {
                     type="text"
                     name="phone"
                     placeholder="Enter your phone..."
-                    value={values.phone || user.phone}
+                    value={user?.phone || ""}
                     readOnly
                   />
                 </>

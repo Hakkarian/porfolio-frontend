@@ -10,7 +10,10 @@ export const instance = axios.create({
 })
 
 export const setToken = (token: string) => {
-      instance.defaults.headers.authorization = `Bearer ${token}`;
+  if (token) {
+    return instance.defaults.headers.authorization = `Bearer ${token}`;
+  }
+  instance.defaults.headers.authorization = ``;
 }
 
 const userApi = {
@@ -24,7 +27,7 @@ const userApi = {
   },
   login: async (data: ILogin) => {
     try {
-      const result = await instance.post('/users/login', data);
+      const {data: result} = await instance.post('/users/login', data);
       return result;
     } catch (error) {
       console.log(error)
@@ -34,7 +37,7 @@ const userApi = {
     console.log('here')
     try {
       setToken(token)
-      const result = await instance.get('/users/current');
+      const {data: result} = await instance.get('/users/current');
       return result;
     } catch (error) {
       console.log(error)
@@ -42,13 +45,12 @@ const userApi = {
   },
   updateInfo: async (data: IUpdUser, id: string, token: string) => {
     try {
-      console.log('upd api', data);
       setToken(token);
       const formData = new FormData();
       const { username, email, location, birthday, phone, avatar } = data;
 
       if (username) {
-        formData.append("avatar", username);
+        formData.append("username", username);
       }
       if (email) {
         formData.append("email", email);
@@ -63,12 +65,19 @@ const userApi = {
         formData.append("phone", phone);
       }
       if (avatar) {
-        console.log('avatar api', avatar)
         formData.append("avatar", avatar as string | Blob);
       }
-      const result = await instance.patch(`/users/${id}/update`, formData);
-      console.log('upd api result', result)
+      const {data: result} = await instance.patch(`/users/${id}/update`, formData);
       return result;
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  logout: async () => {
+    try {
+      const { data: result } = await instance.post(`/users/logout`);
+      setToken("");
+      return result
     } catch (error) {
       console.log(error)
     }

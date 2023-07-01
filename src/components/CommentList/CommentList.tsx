@@ -12,8 +12,7 @@ const CommentList: FC<CommentListProps> = ({ projectId }) => {
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> =
     useDispatch();
   const comments = useSelector(selectComments);
-  const user = useSelector(selectUser);
-
+  const {user} = useSelector(selectUser);
   const [selectedComment, setSelectedComment] = useState("");
   const [edit, setEdit] = useState(false);
   const [text, setText] = useState("");
@@ -45,9 +44,8 @@ const CommentList: FC<CommentListProps> = ({ projectId }) => {
       <>
         {comments.length !== 0 && (
           <ul>
-            {comments.map((comment: IComment) => (
-              <li key={comment._id}>
-                {selectedComment === comment._id && edit ? (
+            {comments.map((comment: IComment) => <li key={comment._id}>
+                {user.userId === comment.author.userId && <div>{selectedComment === comment._id && edit ? (
                   <button type="button" onClick={() => handleUpdate(comment)}>
                     Confirm
                   </button>
@@ -56,9 +54,9 @@ const CommentList: FC<CommentListProps> = ({ projectId }) => {
                     Edit
                   </button>
                 )}
-                <button type="button" onClick={() => handleDelete(projectId, comment._id)}>
-                  Delete
-                </button>
+                  <button type="button" onClick={() => handleDelete(projectId, comment._id)}>
+                    Delete
+                  </button></div>}
                 <p>{comment.author.username}</p>
                 <img
                   src={comment.author.avatar.url}
@@ -69,14 +67,13 @@ const CommentList: FC<CommentListProps> = ({ projectId }) => {
                 {selectedComment === comment._id && edit ? (
                   <textarea
                     defaultValue={comment.content}
-                    value={text || comment.content}
                     onChange={handleChange}
                   />
                 ) : (
-                  <textarea defaultValue={comment.content} readOnly />
+                  <textarea value={comment.content || ""} readOnly />
                 )}
               </li>
-            ))}
+            )}
           </ul>
         )}
       </>

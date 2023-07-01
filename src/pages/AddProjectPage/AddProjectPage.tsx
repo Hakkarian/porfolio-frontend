@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import { addProject } from '../../redux/operations';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../redux/selectors';
 
 const validationSchema = Yup.object().shape({
   title: Yup.string()
@@ -21,15 +23,22 @@ const initialValues = {
 }
 
 const AddProjectPage: FC = () => {
+  const user = useSelector(selectUser);
   const [photo, setPhoto] = useState<File | null>(null);
   const dispatch: ThunkDispatch<RTCIceConnectionState, void, AnyAction> = useDispatch();
   console.log('avatar', photo)
+
   const handleSubmit = (values: any) => {
     const payload = {
       title: values.title,
       description: values.description,
       image: photo
-      }
+    }
+    if (!user.token) {
+      alert('You must login in order to add projects');
+      return;
+    }
+    
         dispatch(addProject(payload))
     }
 
