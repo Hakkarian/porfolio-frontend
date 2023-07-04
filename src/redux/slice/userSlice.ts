@@ -15,7 +15,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setGoogleUser: (state, action) => {
-      console.log('google payload', action.payload)
       state.token = action.payload.token;
       state.user = action.payload.user;
     }
@@ -42,14 +41,12 @@ const userSlice = createSlice({
         state.token = action.payload.token;
       })
       .addCase(currenti.fulfilled, (state, action) => {
-        state.isLoading = false;
-        console.log(action.payload)
+        state.isLoading = false
         state.user = action.payload.user;
         state.token = action.payload.token;
       })
       .addCase(updUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log('update slice', action.payload);
         state.user = action.payload;
       })
       .addCase(logoutUser.fulfilled, (state, action) => {

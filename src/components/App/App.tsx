@@ -37,7 +37,6 @@ const App: FC = () => {
     const location = searchParams.get("location");
     const birthday = searchParams.get("birthday");
     const phone = searchParams.get("phone");
-    console.log('searchParams get')
     if (token) {
       const payload = {
         token, user: {username, email, location, birthday, phone, avatar: {url, id: avatarId}, userId}
@@ -53,7 +52,6 @@ const App: FC = () => {
     searchParams.delete("location");
     searchParams.delete("birthday");
     searchParams.delete("phone");
-    console.log("searchParams delete");
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams, token, dispatch])
   return (

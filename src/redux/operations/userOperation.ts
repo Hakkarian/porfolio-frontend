@@ -26,7 +26,6 @@ export const login = createAsyncThunk('user/userLogin', async (data: ILogin, { r
 export const currenti = createAsyncThunk('user/userCurrent', async (_, { getState, rejectWithValue }) => {
     try {
         const { user } = getState() as any;
-        console.log('currenti getState', user)
         const result = await userApi.current(user.token);
         return result
     } catch (error: any) {
@@ -47,7 +46,6 @@ export const updUser = createAsyncThunk('user/update', async (data: IUpdUser, { 
 export const logoutUser = createAsyncThunk('user/logout', async (_, { rejectWithValue }) => {
     try {
         const result = await userApi.logout();
-        console.log('logout oper', result)
         return result;
     } catch (error: any) {
         rejectWithValue(error.response)

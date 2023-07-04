@@ -2,7 +2,11 @@ export interface IProject {
     _id: string,
     title: string,
     description: string,
-    image: {id: string, url: string}
+    image: { id: string, url: string },
+    likes: number,
+    dislikes: number,
+    liked: string[],
+    disliked: string[]
 }
 
 export interface IUpdProj {

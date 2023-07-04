@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { FC } from 'react';
 import { emailRegex, nameRegex, passwordRegex } from '../../interfaces/regex';
 import { useDispatch } from 'react-redux';
-import { register } from '../../redux/operations';
+import { login, register } from '../../redux/operations';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { IRegisterPage } from '../../interfaces';
 
@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string()
     .matches(
       emailRegex,
-      `Email not supports non-Latin chars, digits, trailing or leading.`
+      `Email does not support non-Latin chars, digits, trailing or leading.`
     )
     .email("Invalid email.")
     .required(),
@@ -28,11 +28,11 @@ const validationSchema = Yup.object().shape({
     .max(16, "Password should have maximum length of 16")
     .matches(
       passwordRegex,
-      "Password must be more than 8 chars, must have at least 1 number and at least 1 special character."
+      `Password must be more than 8 chars, must have at least 1 number, 1 special character and 1 uppercase letter.`
     )
     .required(),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), undefined], "Passwords must match")
+    .oneOf([Yup.ref("password"), undefined], "Passwords do not match")
     .required(),
 });
 
@@ -45,7 +45,7 @@ const RegisterPage: FC = () => {
   const handleSubmit = (values: IRegisterPage, actions: FormikHelpers<IRegisterPage>) => {
     const { username, email, password } = values;
     // dispatch(register({ username, email, password }))
-    dispatch(register({ username, email, password }));
+    dispatch(register({ username, email, password })).then(() => dispatch(login({email, password})))
     actions.resetForm();
   }
 

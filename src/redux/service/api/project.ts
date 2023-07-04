@@ -41,17 +41,29 @@ const projectApi = {
       console.log(error);
     }
   },
-  addLike: async (data: { likes: number; id: string }, token: string) => {
+  changeLike: async (
+    data: { likes: number; liked: string[]; id: string },
+    token: string
+  ) => {
     try {
-      const { data: result } = await instance.put(`/projects/${data.id}`, data);
+      const { data: result } = await instance.put(
+        `/projects/${data.id}/like`,
+        data
+      );
       return result;
     } catch (error) {
       console.log(error);
     }
   },
-  addDislike: async (data: { dislikes: number; id: string }, token: string) => {
+  changeDislike: async (
+    data: { dislikes: number; disliked: string[]; id: string },
+    token: string
+  ) => {
     try {
-      const { data: result } = await instance.put(`/projects/${data.id}`, data);
+      const { data: result } = await instance.put(
+        `/projects/${data.id}/dislike`,
+        data
+      );
       return result;
     } catch (error) {
       console.log(error);

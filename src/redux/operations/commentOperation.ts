@@ -15,9 +15,7 @@ const getAllComments = createAsyncThunk(
 const addComment = createAsyncThunk('comment/add', async (data: {content: string, id: string}, {getState, rejectWithValue}) => {
     try {
         const { user } = getState() as any;
-        console.log('comment oper', data, user.token)
         const result = await commentsApi.addComment(data, user.token);
-        console.log('comment after', result)
         return result;
     } catch (error: any) {
         rejectWithValue(error)
@@ -27,7 +25,6 @@ const addComment = createAsyncThunk('comment/add', async (data: {content: string
 const updComment = createAsyncThunk('comment/upd', async (data: { content: string, id: string, projectId: string }, { getState, rejectWithValue }) => {
     try {
         const { user } = getState() as any;
-        console.log('commment upd oper', data, user.token);
         const result = await commentsApi.updateComment(data, user.token);
         return result
     } catch (error: any) {
@@ -43,7 +40,6 @@ const delComment = createAsyncThunk(
   ) => {
     try {
       const { user } = getState() as any;
-      console.log("commment del oper", user.token);
       const result = await commentsApi.deleteComment(data, user.token);
       return result;
     } catch (error: any) {

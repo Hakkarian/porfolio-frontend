@@ -29,10 +29,10 @@ export const updateProject = createAsyncThunk('project/upd', async (data: any, {
     }
 })
 
-export const like = createAsyncThunk('project/like', async (data: { likes: number, id: string }, { getState, rejectWithValue }) => {
+export const like = createAsyncThunk('project/like', async (data: { likes: number, liked: string[], id: string }, { getState, rejectWithValue }) => {
     try {
         const { user } = getState() as any;
-        const result = projectApi.addLike(data, user.token);
+        const result = projectApi.changeLike(data, user.token);
         return result;
     } catch (error: any) {
         rejectWithValue(error.response)
@@ -42,12 +42,12 @@ export const like = createAsyncThunk('project/like', async (data: { likes: numbe
 export const dislike = createAsyncThunk(
   "project/dislike",
   async (
-    data: { dislikes: number; id: string },
+    data: { dislikes: number, disliked: string[], id: string },
     { getState, rejectWithValue }
   ) => {
     try {
       const { user } = getState() as any;
-      const result = projectApi.addDislike(data, user.token);
+      const result = projectApi.changeDislike(data, user.token);
       return result;
     } catch (error: any) {
       rejectWithValue(error.response);

@@ -26,7 +26,6 @@ const AddProjectPage: FC = () => {
   const user = useSelector(selectUser);
   const [photo, setPhoto] = useState<File | null>(null);
   const dispatch: ThunkDispatch<RTCIceConnectionState, void, AnyAction> = useDispatch();
-  console.log('avatar', photo)
 
   const handleSubmit = (values: any) => {
     const payload = {

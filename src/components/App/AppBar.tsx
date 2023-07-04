@@ -8,7 +8,7 @@ import { selectAvatar, selectToken, selectUser } from '../../redux/selectors';
 
 const AppBar: FC = () => {
   const { user } = useSelector(selectUser);
-  const avatar = useSelector(selectAvatar);
+  // const avatar = useSelector(selectAvatar);
   const token = useSelector(selectToken);
 
     const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
@@ -23,10 +23,10 @@ const AppBar: FC = () => {
       {token ? (
         <>
           <NavLink to="/user">User</NavLink>
-          {user && <div>
-            <img src={avatar.url} alt="avatar" width={40} height={40}/>
+          {user ? <div>
+            <img src={user?.avatar.url} alt="avatar" width={40} height={40}/>
             <p>{user?.username}</p>
-          </div>}
+          </div> : <div>Yes</div>}
           <button type="button" onClick={handleLogout}>
             Logout
           </button>

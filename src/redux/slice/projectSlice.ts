@@ -39,15 +39,17 @@ const projectSlice = createSlice({
       })
       .addCase(like.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.projects = state.projects.map((project) =>
-          project._id === action.payload._id ? action.payload : project
-        );
+        // state.projects = state.projects.map((project) =>
+        //   project._id === action.payload._id ? action.payload : project
+        // );
+        state.projects = action.payload
       })
       .addCase(dislike.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.projects = state.projects.map((project) =>
-          project._id === action.payload._id ? action.payload : project
-        );
+        // state.projects = state.projects.map((project) =>
+        //   project._id === action.payload._id ? action.payload : project
+        // );
+        state.projects = action.payload;
       });
   },
 });

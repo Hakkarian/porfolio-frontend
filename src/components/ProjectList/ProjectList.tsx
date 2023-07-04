@@ -1,16 +1,21 @@
-import { ChangeEvent, FC, useState } from 'react'
+import { ChangeEvent, MouseEvent, FC, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { selectProjects, selectToken } from '../../redux/selectors';
+import { selectProjects, selectToken, selectUser } from '../../redux/selectors';
 import { IProject } from '../../interfaces';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
-import { addComment, getAllComments } from '../../redux/operations';
+import { addComment, dislike, getAllComments, like } from '../../redux/operations';
 import CommentList from '../CommentList';
 
 const ProjectList: FC = () => {
+  const { user } = useSelector(selectUser);
   const token = useSelector(selectToken);
   const [selectedProject, setSelectedProject] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [content, setContent] = useState("");
+  // const [reaction, setReaction] = useState({
+  //   liked: [user],
+  //   disliked: false,
+  // })
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value)
@@ -41,19 +46,68 @@ const ProjectList: FC = () => {
     setContent("");
   };
 
+  const toggleReaction = (item: IProject, e: MouseEvent<HTMLButtonElement>) => {
+    const { _id: projectId } = item;
+    let { likes, dislikes, liked, disliked } = item;
+    const payloadAddLike = { likes: likes + 1, id: projectId, liked };
+    const payloadRemoveLike = { likes: likes - 1 < 0 ? 0 : likes - 1, id: projectId, liked };
+    const payloadAddDislike = { dislikes: dislikes + 1, id: projectId, disliked };
+    const payloadRemoveDislike = {
+      dislikes: dislikes - 1 < 0 ? 0 : dislikes - 1,
+      id: projectId,
+      disliked
+    };
+    const likedUser = liked.find((item: string) => item === user.userId)
+    const dislikedUser = disliked.find((item: string) => item === user.userId);
+    if (likedUser) {
+      dispatch(like(payloadRemoveLike));
+      return 
+    }
+    if (dislikedUser) {
+      dispatch(dislike(payloadRemoveDislike)); 
+      return
+    }
+    const { name } = e.target as HTMLButtonElement
+    if (name === "like") {
+      dispatch(like(payloadAddLike));
+      return
+    }    
+    if (name === "dislike") {
+      dispatch(dislike(payloadAddDislike));
+      return
+    }
+  }
+
   return (
     <>
-      {projects.length !== 0 && (
+      {projects && (
         <ul>
-          {projects.map((item: IProject) => <li key={item._id}>
-                  <img
-                    src={item.image.url}
-                    alt="project"
-                    width={250}
-                    height={150}
-                  />
-                  <input type="name" value={item.title || ""} readOnly />
-                  <textarea value={item.description || ""} readOnly />
+          {projects.map((item: IProject) => (
+            <li key={item._id}>
+              <img
+                src={item.image.url}
+                alt="project"
+                width={250}
+                height={150}
+              />
+              <button
+                type="button"
+                name="like"
+                onClick={(e) => toggleReaction(item, e)}
+              >
+                Like
+              </button>
+              <p>{item.likes}</p>
+              <button
+                type="button"
+                name="dislike"
+                onClick={(e) => toggleReaction(item, e)}
+              >
+                Dislike
+              </button>
+              <p>{item.dislikes}</p>
+              <input type="name" value={item.title || ""} readOnly />
+              <textarea value={item.description || ""} readOnly />
 
               <button type="button" onClick={() => handleButtonClick(item._id)}>
                 {selectedProject === item._id && showComments
@@ -82,7 +136,7 @@ const ProjectList: FC = () => {
                 </form>
               )}
             </li>
-          )}
+          ))}
         </ul>
       )}
     </>

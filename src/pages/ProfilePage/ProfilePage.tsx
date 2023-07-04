@@ -51,7 +51,6 @@ const initialValues = {
 
 const ProfilePage: FC = () => {
   const { user } = useSelector(selectUser);
-  console.log('user')
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
   const [avatar, setAvatar] = useState<File | null>(null);
   const [edit, setEdit] = useState({
@@ -68,7 +67,6 @@ const ProfilePage: FC = () => {
   
   const handleEdit = (e: MouseEvent<HTMLButtonElement>) => {
     const { name } = e.target as HTMLButtonElement
-    console.log('name bool', name);
     setEdit((prevEdit) => ({ ...prevEdit, [name]: true }));
 
   }
@@ -167,34 +165,13 @@ const ProfilePage: FC = () => {
                     type="name"
                     name="username"
                     placeholder="Enter your name..."
-                    value={user?.username}
+                    value={user.username || ""}
                     readOnly
                   />
                 </>
               )}
             </label>
             <label>
-              {edit.email ? (
-                <>
-                  <button
-                    type="button"
-                    name="email"
-                    onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
-                  >
-                    Confirm
-                  </button>
-                  <Field
-                    type="email"
-                    name="email"
-                    placeholder="Enter your email..."
-                    defaultValue={user.email}
-                  />
-                </>
-              ) : (
-                <>
-                  <button type="button" name="email" onClick={handleEdit}>
-                    Edit
-                  </button>
                   <Field
                     type="email"
                     name="email"
@@ -202,8 +179,6 @@ const ProfilePage: FC = () => {
                     value={user?.email || ""}
                     readOnly
                   />
-                </>
-              )}
             </label>
             <label>
               {edit.birthday ? (

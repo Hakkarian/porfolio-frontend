@@ -38,7 +38,6 @@ const userApi = {
     try {
       setToken(token)
       const { data: result } = await instance.get('/users/current');
-      console.log('current api', result);
       return result;
     } catch (error) {
       console.log(error)

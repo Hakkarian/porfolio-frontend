@@ -5,7 +5,6 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 const PrivateView = () => {
     const user = useSelector(selectUser);
-    console.log(user)
     if (!user.token) {
         return <Navigate to="/login" />
     }
