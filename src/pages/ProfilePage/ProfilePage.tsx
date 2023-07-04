@@ -135,6 +135,8 @@ const ProfilePage: FC = () => {
                   <img
                     src={user?.avatar.url || user?.user.avatar.url}
                     alt="avatar"
+                    width={40}
+                    height={40}
                   />
                 )}
               </>

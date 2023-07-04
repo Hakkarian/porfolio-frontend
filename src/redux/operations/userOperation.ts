@@ -26,6 +26,7 @@ export const login = createAsyncThunk('user/userLogin', async (data: ILogin, { r
 export const currenti = createAsyncThunk('user/userCurrent', async (_, { getState, rejectWithValue }) => {
     try {
         const { user } = getState() as any;
+        console.log('currenti getState', user)
         const result = await userApi.current(user.token);
         return result
     } catch (error: any) {

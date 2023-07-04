@@ -1,12 +1,13 @@
 import { ChangeEvent, FC, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { selectProjects } from '../../redux/selectors';
+import { selectProjects, selectToken } from '../../redux/selectors';
 import { IProject } from '../../interfaces';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { addComment, getAllComments } from '../../redux/operations';
 import CommentList from '../CommentList';
 
 const ProjectList: FC = () => {
+  const token = useSelector(selectToken);
   const [selectedProject, setSelectedProject] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [content, setContent] = useState("");
@@ -31,6 +32,10 @@ const ProjectList: FC = () => {
   const handleSubmit = (id: string) => {
     const payload = {
       content, id
+    }
+    if (!token) {
+      alert('To add a comment you need to register')
+      return
     }
     dispatch(addComment(payload));
     setContent("");

@@ -13,7 +13,13 @@ const initialState: IUserState = {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    setGoogleUser: (state, action) => {
+      console.log('google payload', action.payload)
+      state.token = action.payload.token;
+      state.user = action.payload.user;
+    }
+  },
   extraReducers: (builder) =>
     builder
       .addCase(register.pending, pending)
@@ -52,5 +58,7 @@ const userSlice = createSlice({
         state.token = "";
       })
 });
+
+export const { setGoogleUser } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../redux/operations";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { ILogin } from "../../interfaces";
+import GoogleAuthentication from "../../components/GoogleAuthentication";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -71,6 +72,7 @@ const LoginPage: FC = () => {
             <span>{errors.password}</span>
           </label>
           <button type="submit">Submit</button>
+          <GoogleAuthentication />
         </Form>
       )}
     </Formik>

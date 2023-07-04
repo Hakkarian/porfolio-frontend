@@ -1,6 +1,5 @@
 import { selectProjects } from "./projectSelector";
 import { selectComments } from "./commentSelector";
-import { selectToken } from "./userSelector";
-import { selectUser } from "./userSelector";
+import { selectToken, selectUser, selectAvatar } from "./userSelector";
 
-export {selectProjects, selectComments, selectToken, selectUser}
+export {selectProjects, selectComments, selectToken, selectUser, selectAvatar}

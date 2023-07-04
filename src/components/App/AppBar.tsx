@@ -4,11 +4,13 @@ import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../redux/operations';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
-import { selectToken, selectUser } from '../../redux/selectors';
+import { selectAvatar, selectToken, selectUser } from '../../redux/selectors';
 
 const AppBar: FC = () => {
-    const { user } = useSelector(selectUser);
-    const token = useSelector(selectToken);
+  const { user } = useSelector(selectUser);
+  const avatar = useSelector(selectAvatar);
+  const token = useSelector(selectToken);
+
     const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
 
     const handleLogout = () => {
@@ -21,10 +23,10 @@ const AppBar: FC = () => {
       {token ? (
         <>
           <NavLink to="/user">User</NavLink>
-          <div>
-            <img src={user.avatar.url} alt="avatar" />
-            <p>{user.username}</p>
-          </div>
+          {user && <div>
+            <img src={avatar.url} alt="avatar" width={40} height={40}/>
+            <p>{user?.username}</p>
+          </div>}
           <button type="button" onClick={handleLogout}>
             Logout
           </button>

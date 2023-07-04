@@ -3,7 +3,7 @@ import { instance, setToken } from "./user"
 
 const projectApi = {
   getAllProjects: async () => {
-    const {data: result} = await instance.get("/projects");
+    const { data: result } = await instance.get("/projects");
     return result;
   },
   addProject: async (data: any) => {
@@ -19,25 +19,44 @@ const projectApi = {
       const { data: result } = await instance.post("/projects", formData);
       return result;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   },
   updProject: async (data: any, token: string) => {
     try {
       const formData = new FormData();
-        formData.append("title", data.title);
+      formData.append("title", data.title);
       formData.append("description", data.description);
       if (data.image) {
         formData.append("image", data.image);
       }
 
-      setToken(token)
-      const { data: result } = await instance.patch(`/projects/${data.id}`, formData)
+      setToken(token);
+      const { data: result } = await instance.patch(
+        `/projects/${data.id}`,
+        formData
+      );
       return result;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  },
+  addLike: async (data: { likes: number; id: string }, token: string) => {
+    try {
+      const { data: result } = await instance.put(`/projects/${data.id}`, data);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  addDislike: async (data: { dislikes: number; id: string }, token: string) => {
+    try {
+      const { data: result } = await instance.put(`/projects/${data.id}`, data);
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 export default projectApi;

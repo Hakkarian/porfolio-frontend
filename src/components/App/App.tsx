@@ -1,6 +1,6 @@
 import { FC, lazy, Suspense, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useSearchParams } from 'react-router-dom';
 import { currenti } from '../../redux/operations';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import AppBar from './AppBar';
@@ -8,6 +8,7 @@ import PrivateView from '../../views/PrivateView';
 import RestrictedView from '../../views/ResctrictedView';
 import { useSelector } from 'react-redux';
 import { selectToken } from '../../redux/selectors';
+import { setGoogleUser } from '../../redux/slice/userSlice';
 
 const HomePage = lazy(() => import("../../pages/HomePage"));
 const ProjectPage = lazy(() => import('../../pages/ProjectPage'));
@@ -18,12 +19,43 @@ const ProfilePage = lazy(() => import("../../pages/ProfilePage"));
 const App: FC = () => {
   const token = useSelector(selectToken);
   const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
     if (token) {
       dispatch(currenti());
     }
   }, [dispatch, token])
+
+  useEffect(() => {
+    const token = searchParams.get("token");
+    const username = searchParams.get("username");
+    const email = searchParams.get("email");
+    const url = searchParams.get("url");
+    const avatarId = searchParams.get("avatarId");
+    const userId = searchParams.get("userId");
+    const location = searchParams.get("location");
+    const birthday = searchParams.get("birthday");
+    const phone = searchParams.get("phone");
+    console.log('searchParams get')
+    if (token) {
+      const payload = {
+        token, user: {username, email, location, birthday, phone, avatar: {url, id: avatarId}, userId}
+      }
+      dispatch(setGoogleUser(payload))
+    }
+    searchParams.delete("token");
+    searchParams.delete("username");
+    searchParams.delete("email");
+    searchParams.delete("url");
+    searchParams.delete("avatarId");
+    searchParams.delete("userId");
+    searchParams.delete("location");
+    searchParams.delete("birthday");
+    searchParams.delete("phone");
+    console.log("searchParams delete");
+    setSearchParams(searchParams);
+  }, [searchParams, setSearchParams, token, dispatch])
   return (
     <>
       <AppBar />
