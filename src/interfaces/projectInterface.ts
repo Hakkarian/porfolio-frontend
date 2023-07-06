@@ -6,7 +6,9 @@ export interface IProject {
     likes: number,
     dislikes: number,
     liked: string[],
-    disliked: string[]
+    disliked: string[],
+    github: string,
+    link: string
 }
 
 export interface IUpdProj {
@@ -17,6 +19,9 @@ export interface IUpdProj {
 
 export interface IProjectState {
     projects: IProject[],
+    favorite: IProject[],
+    currentPage: number,
+    totalPages: number,
     isLoading: boolean,
     error: string | null
 }

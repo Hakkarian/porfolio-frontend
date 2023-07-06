@@ -14,9 +14,9 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setGoogleUser: (state, action) => {
-      state.token = action.payload.token;
-      state.user = action.payload.user;
+    setGoogleUser: (state, {payload}) => {
+      state.token = payload.token;
+      state.user = payload.user;
     }
   },
   extraReducers: (builder) =>
@@ -31,25 +31,25 @@ const userSlice = createSlice({
       .addCase(currenti.rejected, rejected)
       .addCase(updUser.rejected, rejected)
       .addCase(logoutUser.rejected, rejected)
-      .addCase(register.fulfilled, (state, action) => {
+      .addCase(register.fulfilled, (state, {payload}) => {
         state.isLoading = false;
-        state.user = action.payload;
+        state.user = payload;
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state, {payload}) => {
         state.isLoading = false;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.user = payload.user;
+        state.token = payload.token;
       })
-      .addCase(currenti.fulfilled, (state, action) => {
+      .addCase(currenti.fulfilled, (state, {payload}) => {
         state.isLoading = false
-        state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.user = payload.user;
+        state.token = payload.token;
       })
-      .addCase(updUser.fulfilled, (state, action) => {
+      .addCase(updUser.fulfilled, (state, {payload}) => {
         state.isLoading = false;
-        state.user = action.payload;
+        state.user = payload;
       })
-      .addCase(logoutUser.fulfilled, (state, action) => {
+      .addCase(logoutUser.fulfilled, (state) => {
         state.isLoading = false;
         state.user = {} as any;
         state.token = "";

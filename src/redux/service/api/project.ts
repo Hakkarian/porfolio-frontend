@@ -2,9 +2,19 @@ import { instance, setToken } from "./user"
 
 
 const projectApi = {
-  getAllProjects: async () => {
-    const { data: result } = await instance.get("/projects");
+  getPaginatedProjects: async (data: {page: number, limit: number}) => {
+    const { data: result } = await instance.get(`/projects?page=${data.page}&limit=${data.limit}`);
     return result;
+  },
+  getLikedProjects: async (data: {page: number, limit: number}) => {
+    try {
+      const { data: result } = await instance.get(
+        `/projects/liked?page=${data.page}&limit=${data.limit}`
+      );
+      return result;
+    } catch (error) {
+      console.log(error)
+    }
   },
   addProject: async (data: any) => {
     try {

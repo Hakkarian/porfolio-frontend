@@ -23,21 +23,21 @@ const commentSlice = createSlice({
       .addCase(addComment.rejected, rejected)
       .addCase(updComment.rejected, rejected)
       .addCase(delComment.rejected, rejected)
-      .addCase(getAllComments.fulfilled, (state, action) => {
+      .addCase(getAllComments.fulfilled, (state, {payload}) => {
         state.isLoading = false;
-        state.comments = action.payload as IComment[];
+        state.comments = payload as IComment[];
       })
-      .addCase(addComment.fulfilled, (state, action) => {
+      .addCase(addComment.fulfilled, (state, {payload}) => {
         state.isLoading = false;
-        state.comments.push(action.payload);
+        state.comments.push(payload);
       })
-      .addCase(updComment.fulfilled, (state, action) => {
+      .addCase(updComment.fulfilled, (state, {payload}) => {
         state.isLoading = false;
-        state.comments = action.payload;
+        state.comments = payload;
       })
-      .addCase(delComment.fulfilled, (state, action) => {
+      .addCase(delComment.fulfilled, (state, {payload}) => {
         state.isLoading = false;
-        state.comments = action.payload;
+        state.comments = payload;
       })
   },
 });

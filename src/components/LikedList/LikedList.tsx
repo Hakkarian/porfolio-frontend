@@ -1,29 +1,34 @@
-import { ChangeEvent, MouseEvent, FC, useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
-import { selectProjects, selectToken, selectUser } from '../../redux/selectors';
-import { IProject } from '../../interfaces';
-import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
-import { addComment, dislike, getAllComments, paginate, like } from '../../redux/operations';
-import CommentList from '../CommentList';
+import { ChangeEvent, MouseEvent, FC, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 
-const ProjectList: FC = () => {
-  const { user } = useSelector(selectUser);
-  const token = useSelector(selectToken);
-  const { projects, currentPage, isLoading, error } = useSelector(selectProjects);
-  
+import { selectFavorite, selectProjects, selectToken, selectUser } from "../../redux/selectors";
+import { IProject } from "../../interfaces";
+import {
+  addComment,
+  dislike,
+  getAllComments,
+  getLikedProjects,
+  like,
+} from "../../redux/operations";
+import CommentList from "../CommentList";
+
+const LikedList: FC = () => {
+    const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
+    const { user } = useSelector(selectUser);
+    const token = useSelector(selectToken);
+  const favorite = useSelector(selectFavorite);
+  const { currentPage } = useSelector(selectProjects);
   const [selectedProject, setSelectedProject] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [content, setContent] = useState("");
 
-  const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> =
-    useDispatch();
-  
   useEffect(() => {
-    dispatch(paginate({page: currentPage, limit: 4}));
+    dispatch(getLikedProjects({page: currentPage, limit: 4}));
   }, [dispatch, currentPage]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setContent(e.target.value)
+    setContent(e.target.value);
   };
 
   const handleButtonClick = (id: string): void => {
@@ -38,11 +43,12 @@ const ProjectList: FC = () => {
 
   const handleSubmit = (id: string) => {
     const payload = {
-      content, id
-    }
+      content,
+      id,
+    };
     if (!token) {
-      alert('To add a comment you need to register')
-      return
+      alert("To add a comment you need to register");
+      return;
     }
     dispatch(addComment(payload));
     setContent("");
@@ -52,43 +58,47 @@ const ProjectList: FC = () => {
     const { _id: projectId } = item;
     let { likes, dislikes, liked, disliked } = item;
     const payloadAddLike = { likes: likes + 1, id: projectId, liked };
-    const payloadRemoveLike = { likes: likes - 1 < 0 ? 0 : likes - 1, id: projectId, liked };
-    const payloadAddDislike = { dislikes: dislikes + 1, id: projectId, disliked };
+    const payloadRemoveLike = {
+      likes: likes - 1 < 0 ? 0 : likes - 1,
+      id: projectId,
+      liked,
+    };
+    const payloadAddDislike = {
+      dislikes: dislikes + 1,
+      id: projectId,
+      disliked,
+    };
     const payloadRemoveDislike = {
       dislikes: dislikes - 1 < 0 ? 0 : dislikes - 1,
       id: projectId,
-      disliked
+      disliked,
     };
-    const likedUser = liked.find((item: string) => item === user.userId)
+    const likedUser = liked.find((item: string) => item === user.userId);
     const dislikedUser = disliked.find((item: string) => item === user.userId);
     if (likedUser) {
       dispatch(like(payloadRemoveLike));
-      return 
+      return;
     }
     if (dislikedUser) {
-      dispatch(dislike(payloadRemoveDislike)); 
-      return
+      dispatch(dislike(payloadRemoveDislike));
+      return;
     }
-    const { name } = e.target as HTMLButtonElement
+    const { name } = e.target as HTMLButtonElement;
     if (name === "like") {
       dispatch(like(payloadAddLike));
-      return
-    }    
+      return;
+    }
     if (name === "dislike") {
       dispatch(dislike(payloadAddDislike));
-      return
+      return;
     }
-  }
-
-  if(error) {
-    return <div>Error: {error}</div>
-  }
+  };
 
   return (
     <>
-      {projects && (
+      {favorite && (
         <ul>
-          {projects.map((item: IProject) => (
+          {favorite.map((item: IProject) => (
             <li key={item._id}>
               <img
                 src={item.image.url}
@@ -100,23 +110,14 @@ const ProjectList: FC = () => {
                 type="button"
                 name="like"
                 onClick={(e) => toggleReaction(item, e)}
-                disabled={selectedProject === item._id && isLoading}
               >
-                Like
+                Don't like anymore
               </button>
-              <p>{item.likes}</p>
-              <button
-                type="button"
-                name="dislike"
-                onClick={(e) => toggleReaction(item, e)}
-              >
-                Dislike
-              </button>
-              <p>{item.dislikes}</p>
-              <input type="name" value={item.title || ""} readOnly />
-              <textarea value={item.description || ""} readOnly />
+              <input type="name" value={item.title || ""} readOnly/>
+              <textarea value={item.description || ""} readOnly/>
               <a href={item.link}>Link</a>
               <a href={item.github}>Github</a>
+
               <button type="button" onClick={() => handleButtonClick(item._id)}>
                 {selectedProject === item._id && showComments
                   ? "Hide Comments"
@@ -125,7 +126,7 @@ const ProjectList: FC = () => {
               {selectedProject === item._id && showComments && (
                 <CommentList projectId={item._id} />
               )}
-              {projects.length !== 0 && (
+              {favorite.length !== 0 && (
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
@@ -151,4 +152,4 @@ const ProjectList: FC = () => {
   );
 };
 
-export default ProjectList;
+export default LikedList;

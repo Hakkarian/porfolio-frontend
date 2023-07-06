@@ -1,15 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { projectApi } from "../service/api";
 
-export const getAllProjects = createAsyncThunk('project/getAll', async (_, {rejectWithValue}) => {
+export const paginate = createAsyncThunk('project/getPaginate', async (data: {page: number, limit: number}, {rejectWithValue}) => {
     try {
-        const result = await projectApi.getAllProjects();
+        const result = await projectApi.getPaginatedProjects(data);
         return result;
     } catch (error: any) {
         rejectWithValue(error.response)
     }
 })
 
+export const getLikedProjects = createAsyncThunk(
+  "project/getLiked",
+  async (data: { page: number; limit: number }, { rejectWithValue }) => {
+    try {
+      const result = await projectApi.getLikedProjects(data);
+      return result;
+    } catch (error: any) {
+      rejectWithValue(error.response);
+    }
+  }
+);
 export const addProject = createAsyncThunk('project/add', async (data: any, {rejectWithValue}) => {
     try {
         const result = await projectApi.addProject(data);
