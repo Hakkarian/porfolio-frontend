@@ -5,6 +5,7 @@ import { IProject } from '../../interfaces';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { addComment, dislike, getAllComments, paginate, like } from '../../redux/operations';
 import CommentList from '../CommentList';
+import { ProjectItemCss, ProjectListCss } from './ProjectList.styled';
 
 const ProjectList: FC = () => {
   const { user } = useSelector(selectUser);
@@ -87,65 +88,82 @@ const ProjectList: FC = () => {
   return (
     <>
       {projects && (
-        <ul>
+        <ProjectListCss>
           {projects.map((item: IProject) => (
-            <li key={item._id}>
-              <img
-                src={item.image.url}
-                alt="project"
-                width={250}
-                height={150}
-              />
-              <button
-                type="button"
-                name="like"
-                onClick={(e) => toggleReaction(item, e)}
-                disabled={selectedProject === item._id && isLoading}
-              >
-                Like
-              </button>
-              <p>{item.likes}</p>
-              <button
-                type="button"
-                name="dislike"
-                onClick={(e) => toggleReaction(item, e)}
-              >
-                Dislike
-              </button>
-              <p>{item.dislikes}</p>
-              <input type="name" value={item.title || ""} readOnly />
-              <textarea value={item.description || ""} readOnly />
-              <a href={item.link}>Link</a>
-              <a href={item.github}>Github</a>
-              <button type="button" onClick={() => handleButtonClick(item._id)}>
-                {selectedProject === item._id && showComments
-                  ? "Hide Comments"
-                  : "Show Comments"}
-              </button>
-              {selectedProject === item._id && showComments && (
-                <CommentList projectId={item._id} />
-              )}
-              {projects.length !== 0 && (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSubmit(item._id);
-                  }}
+            <ProjectItemCss key={item._id}>
+              <div className="project__image-reactions">
+                <img
+                  src={item.image.url}
+                  alt="project"
+                  width={700}
+                  height={400}
+                />
+                <div className="project__reactions">
+                  <div className="project__reaction-wrap">
+                    <button
+                      type="button"
+                      name="like"
+                      onClick={(e) => toggleReaction(item, e)}
+                      disabled={selectedProject === item._id && isLoading}
+                    >
+                      Like
+                    </button>
+                    <p>{item.likes}</p>
+                  </div>
+                  <div className="project__reaction-wrap">
+                    <button
+                      type="button"
+                      name="dislike"
+                      onClick={(e) => toggleReaction(item, e)}
+                    >
+                      Dislike
+                    </button>
+                    <p>{item.dislikes}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="project__info-wrap">
+                <h2>{item.title || ""}</h2>
+                <p>{item.description || ""}</p>
+                <div className="project__links">
+                  <a href={item.link}>Link</a>
+                  <a href={item.github}>Github</a>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleButtonClick(item._id)}
                 >
-                  <label>
-                    <input
-                      value={selectedProject === item._id ? content : ""}
-                      type="text"
-                      placeholder="Type something..."
-                      onChange={handleChange}
-                    />
-                  </label>
-                  <button type="submit">+</button>
-                </form>
-              )}
-            </li>
+                  {selectedProject === item._id && showComments
+                    ? "Hide Comments"
+                    : "Show Comments"}
+                </button>
+                {selectedProject === item._id && showComments && (
+                  <div className='project__comments-wrap'>
+                    <CommentList projectId={item._id} />
+                  </div>
+                )}
+                {selectedProject === item._id && showComments && (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleSubmit(item._id);
+                    }}
+                  >
+                    <label>
+                      <input
+                        value={selectedProject === item._id ? content : ""}
+                        type="text"
+                        placeholder="Type something..."
+                        onChange={handleChange}
+                      />
+                    </label>
+                    <button type="submit">+</button>
+                  </form>
+                )}
+              </div>
+            </ProjectItemCss>
           ))}
-        </ul>
+        </ProjectListCss>
       )}
     </>
   );

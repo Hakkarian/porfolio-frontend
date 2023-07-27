@@ -1,6 +1,6 @@
 import { FC, lazy, Suspense, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { Routes, Route, useSearchParams } from 'react-router-dom';
+import { Routes, Route, useSearchParams, BrowserRouter } from 'react-router-dom';
 import { currenti } from '../../redux/operations';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import AppBar from './AppBar';
@@ -9,6 +9,7 @@ import RestrictedView from '../../views/ResctrictedView';
 import { useSelector } from 'react-redux';
 import { selectToken } from '../../redux/selectors';
 import { setGoogleUser } from '../../redux/slice/userSlice';
+import { ContainerCss } from '../../utils';
 
 const HomePage = lazy(() => import("../../pages/HomePage"));
 const ProjectPage = lazy(() => import('../../pages/ProjectPage'));
@@ -56,20 +57,22 @@ const App: FC = () => {
   }, [searchParams, setSearchParams, token, dispatch])
   return (
     <>
-      <AppBar />
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route index element={<HomePage />} />
-          <Route path="/projects" element={<ProjectPage />} />
-          <Route element={<PrivateView />}>
-            <Route path="/user" element={<ProfilePage />} />
-          </Route>
-          <Route element={<RestrictedView />}>
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
-          </Route>
-        </Routes>
-      </Suspense>
+      <ContainerCss>
+        <AppBar />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route index element={<HomePage />} />
+            <Route path="/projects" element={<ProjectPage />} />
+            <Route element={<PrivateView />}>
+              <Route path="/user" element={<ProfilePage />} />
+            </Route>
+            <Route element={<RestrictedView />}>
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </ContainerCss>
     </>
   );
 }

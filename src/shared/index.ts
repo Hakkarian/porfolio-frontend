@@ -1,3 +1,3 @@
 import handleUpdate from "./handleUpdate";
 
-export default handleUpdate;
+export default handleUpdate
