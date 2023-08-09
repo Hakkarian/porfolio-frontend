@@ -1,4 +1,4 @@
-import { FC, useState, ChangeEvent } from 'react'
+import { FC, useState, ChangeEvent, memo } from 'react'
 import { useSelector } from 'react-redux';
 import { selectComments, selectUser } from '../../redux/selectors';
 import { CommentListProps, IComment } from '../../interfaces';
@@ -16,6 +16,7 @@ const CommentList: FC<CommentListProps> = ({ projectId }) => {
   const [selectedComment, setSelectedComment] = useState("");
   const [edit, setEdit] = useState(false);
   const [text, setText] = useState("");
+  console.log('Rendered!')
 
   const handleUpdate = (comment: { content: string, _id: string }) => {
     const { _id: id } = comment;
@@ -80,4 +81,4 @@ const CommentList: FC<CommentListProps> = ({ projectId }) => {
     );
 }
 
-export default CommentList
+export default memo(CommentList);

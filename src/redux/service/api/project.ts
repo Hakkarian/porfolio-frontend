@@ -11,6 +11,7 @@ const projectApi = {
       const { data: result } = await instance.get(
         `/projects/liked?page=${data.page}&limit=${data.limit}`
       );
+      console.log(result)
       return result;
     } catch (error) {
       console.log(error)

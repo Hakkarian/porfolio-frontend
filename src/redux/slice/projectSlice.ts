@@ -52,6 +52,7 @@ const projectSlice = createSlice({
       })
       .addCase(like.fulfilled, (state, {payload}) => {
         state.isLoading = false;
+        
         // state.projects = state.projects.map((project) =>
         //   project._id === action.payload._id ? action.payload : project
         // );

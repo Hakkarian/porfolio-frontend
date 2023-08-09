@@ -12,7 +12,7 @@ export const paginate = createAsyncThunk('project/getPaginate', async (data: {pa
 
 export const getLikedProjects = createAsyncThunk(
   "project/getLiked",
-  async (data: { page: number; limit: number }, { rejectWithValue }) => {
+  async (data: {page: number, limit: number}, { rejectWithValue }) => {
     try {
       const result = await projectApi.getLikedProjects(data);
       return result;

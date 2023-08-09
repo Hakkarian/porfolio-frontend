@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { getLikedProjects } from '../../redux/operations';
 import LikedList from '../../components/LikedList';
 import Pagination from '../../components/Pagination';
+import LikedPagination from '../../components/Pagination/LikedPagination';
 
 
 const ProfilePage: FC = () => {
@@ -19,7 +20,7 @@ const ProfilePage: FC = () => {
     <div>
       <Profile />
       <LikedList />
-      <Pagination />
+      <LikedPagination />
     </div>
   );
 }

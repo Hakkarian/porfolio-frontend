@@ -6,7 +6,6 @@ import {
   Dispatch,
   SetStateAction,
   ChangeEvent,
-  useEffect,
 } from "react";
 import * as Yup from "yup";
 import {
@@ -21,8 +20,7 @@ import { selectUser } from "../../redux/selectors";
 import { ActionType, IBoolUser, IUpdUser } from "../../interfaces";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-import handleUpdate from "../../shared";
-import { getLikedProjects } from "../../redux/operations";
+import {handleUpdate} from "../../shared";
 
 const validationSchema = () => {
   return Yup.object().shape({

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import 'reset.css';
 import './index.css';
 import '@fontsource/raleway';
+import '@fontsource/oswald';
 import {App} from './components/App';
 import { Provider } from 'react-redux';
 import store, { persistor } from './redux/store';

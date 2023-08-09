@@ -66,10 +66,9 @@ export const NavLinkCss = styled(NavLink)`
 `;
 
 export const UserWrap = styled.div`
-
-@media screen and (max-width: 41.625rem) {
-  padding-left: 1rem;
-}
+  @media screen and (max-width: 41.625rem) {
+    padding-left: 1rem;
+  }
   padding-right: 1rem;
   display: flex;
   gap: 5rem;
@@ -102,6 +101,15 @@ export const UserWrap = styled.div`
       &::after {
         transform: scaleX(1);
       }
+    }
+  }
+  .header__button--transparent-bg {
+    &:hover,
+    &:focus {
+      background-color: transparent;
+      color: #000;
+      border: 1px solid #000;
+      border-radius: 0.125rem 1rem;
     }
   }
 `;

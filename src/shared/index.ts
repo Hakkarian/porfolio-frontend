@@ -1,3 +1,6 @@
 import handleUpdate from "./handleUpdate";
+import { Button } from "./CssTools.styled";
 
-export default handleUpdate
+export {
+    handleUpdate, Button
+}

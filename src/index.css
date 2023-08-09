@@ -1,7 +1,12 @@
 @import-normalize;
 
+* {
+  outline: none;
+}
+
 body {
   padding-top: 4.5rem;
+  box-sizing: border-box;
   margin: 0;
   font-family: 'Raleway', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -10,9 +15,9 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1;
-  letter-spacing: 0.03em;;
+  letter-spacing: 0.03em;
 
-  color: black
+  color: black;
 
 }
 
@@ -31,7 +36,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 button {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.03em;
   cursor: pointer;
+
+  transition: transform 250ms ease-in-out, color 250ms ease-in-out, background-color 250ms ease-in-out,
+  background-color 250ms ease-in-out, border-radius 250ms ease-in-out, opacity 250ms ease-in-out;
 }
 
 ul, ol {

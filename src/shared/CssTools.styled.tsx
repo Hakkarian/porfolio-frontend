@@ -26,12 +26,4 @@ export const Button = styled.button`
 
   transition: background-color 250ms linear, color 250ms linear, border 250ms ease-in-out,
     border-radius 250ms ease-in-out;
-
-  &:hover,
-  &:focus {
-    background-color: transparent;
-    color: #000;
-    border: 1px solid #000;
-    border-radius: 0.125rem 1rem;
-  }
 `;

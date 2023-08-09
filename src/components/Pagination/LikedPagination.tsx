@@ -17,7 +17,7 @@ const LikedPagination: FC = () => {
             <li key={page}>
               <button
                 type="button"
-                onClick={() => dispatch(getLikedProjects({ page, limit: 4 }))}
+                onClick={() => dispatch(getLikedProjects({page, limit: 4}))}
               >
                 {page}
               </button>

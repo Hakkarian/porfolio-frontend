@@ -39,7 +39,7 @@ const AppBar: FC = () => {
                 <p>Welcome, {user?.username}</p>
               </AvatarUsername>
             )}
-            <Button type="button" onClick={handleLogout}>
+            <Button type="button" className='header__button--transparent-bg' onClick={handleLogout}>
               Logout
             </Button>
           </UserWrap>
