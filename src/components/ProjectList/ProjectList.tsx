@@ -25,12 +25,10 @@ const ProjectList: FC = () => {
 
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> =
     useDispatch();
-
-  console.log(projects)
   
   useEffect(() => {
     dispatch(paginate({ page: currentPage, limit: 4 }));
-  }, [dispatch, currentPage]);
+  }, [dispatch]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
@@ -59,37 +57,51 @@ const ProjectList: FC = () => {
     setContent("");
   };
 
-  const toggleReaction = useCallback((item: IProject, e: MouseEvent<HTMLButtonElement>) => {
-    console.log('first')
+  const toggleReaction = (item: IProject, e: MouseEvent<HTMLButtonElement>) => {
+    const { name } = e.target as HTMLButtonElement;
     const { _id: projectId } = item;
     let { likes, dislikes, liked, disliked } = item;
-    const payloadAddLike = { likes: likes + 1, id: projectId, liked };
+    const payloadAddLike = { likes: likes + 1, id: projectId, liked, page: currentPage, limit: 4 };
     const payloadRemoveLike = {
       likes: likes - 1 < 0 ? 0 : likes - 1,
       id: projectId,
       liked,
+      page: currentPage,
+      limit: 4,
     };
     const payloadAddDislike = {
       dislikes: dislikes + 1,
       id: projectId,
       disliked,
+      page: currentPage,
+      limit: 4,
     };
     const payloadRemoveDislike = {
       dislikes: dislikes - 1 < 0 ? 0 : dislikes - 1,
       id: projectId,
       disliked,
+      page: currentPage,
+      limit: 4,
     };
     const likedUser = liked.find((item: string) => item === user.userId);
     const dislikedUser = disliked.find((item: string) => item === user.userId);
     if (likedUser) {
       dispatch(like(payloadRemoveLike));
+      if (name === "dislike") {
+        dispatch(dislike(payloadAddDislike));
+        return;
+      }
       return;
     }
     if (dislikedUser) {
       dispatch(dislike(payloadRemoveDislike));
+      if (name === "like") {
+        dispatch(like(payloadAddLike));
+        return;
+      }
       return;
     }
-    const { name } = e.target as HTMLButtonElement;
+    
     if (name === "like") {
       dispatch(like(payloadAddLike));
       return;
@@ -98,12 +110,11 @@ const ProjectList: FC = () => {
       dispatch(dislike(payloadAddDislike));
       return;
     }
-  }, [dispatch, user.userId]);
+  };
 
   if (error) {
     return <div>Error: {error}</div>;
   }
-
   return (
     <>
       {projects && (

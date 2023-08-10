@@ -34,7 +34,6 @@ const userApi = {
     }
   },
   current: async (token: string) => {
-    console.log('here')
     try {
       setToken(token)
       const { data: result } = await instance.get('/users/current');

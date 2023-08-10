@@ -25,11 +25,11 @@ const LikedList: FC = () => {
   const [showComments, setShowComments] = useState(false);
   const [content, setContent] = useState("");
 
-  console.log(favorite);
+  console.log(favorite)
 
   useEffect(() => {
     dispatch(getLikedProjects({page: currentPage, limit: 4}));
-  }, [dispatch]);
+  }, [dispatch, currentPage]);
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
@@ -66,13 +66,13 @@ const LikedList: FC = () => {
       likes: likes - 1 < 0 ? 0 : likes - 1,
       id: projectId,
       liked,
+      page: currentPage,
+      limit: 4,
     };
     const likedUser = liked.find((item: string) => item === user.userId);
     if (likedUser) {
       dispatch(like(payloadRemoveLike));
-      console.log('here list')
       dispatch(getLikedProjects({ page: currentPage, limit: 4 }));
-      console.log('here list after')
       return;
     }
   };

@@ -16,7 +16,6 @@ const CommentList: FC<CommentListProps> = ({ projectId }) => {
   const [selectedComment, setSelectedComment] = useState("");
   const [edit, setEdit] = useState(false);
   const [text, setText] = useState("");
-  console.log('Rendered!')
 
   const handleUpdate = (comment: { content: string, _id: string }) => {
     const { _id: id } = comment;

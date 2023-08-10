@@ -4,14 +4,14 @@ import { Button } from "../../shared";
 export const NotLikeButton = styled(Button)`
   background: linear-gradient(
     90deg,
-    transparent 0%,
-    #790909 35%,
-    rgba(2, 0, 36, 1) 100%
+    #000 0%,
+    transparent 35%,
+    #000 100%
   );
 
   font-weight: 700;
 
-  background-color: yellow;
+  background-color: #790909;
 
   &:hover,
   &:focus {

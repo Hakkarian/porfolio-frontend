@@ -53,12 +53,12 @@ const projectApi = {
     }
   },
   changeLike: async (
-    data: { likes: number; liked: string[]; id: string },
-    token: string
+    data: { likes: number; liked: string[]; page: number, limit: number, id: string }
+
   ) => {
     try {
       const { data: result } = await instance.put(
-        `/projects/${data.id}/like`,
+        `/projects/${data.id}/like?page=${data.page}&limit=${data.limit}`,
         data
       );
       return result;
@@ -67,12 +67,11 @@ const projectApi = {
     }
   },
   changeDislike: async (
-    data: { dislikes: number; disliked: string[]; id: string },
-    token: string
+    data: { dislikes: number; disliked: string[]; id: string, page: number, limit: number }
   ) => {
     try {
       const { data: result } = await instance.put(
-        `/projects/${data.id}/dislike`,
+        `/projects/${data.id}/dislike?page=${data.page}&limit=${data.limit}`,
         data
       );
       return result;
