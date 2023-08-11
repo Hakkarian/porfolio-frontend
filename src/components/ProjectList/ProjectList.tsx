@@ -9,6 +9,7 @@ import {
   getAllComments,
   paginate,
   like,
+  getLikedProjects,
 } from "../../redux/operations";
 import CommentList from "../CommentList";
 import { ProjectItemCss, ProjectListCss } from "./ProjectList.styled";
@@ -16,7 +17,7 @@ import { ProjectItemCss, ProjectListCss } from "./ProjectList.styled";
 const ProjectList: FC = () => {
   const { user } = useSelector(selectUser);
   const token = useSelector(selectToken);
-  const { projects, currentPage, isLoading, error } =
+  const { projects, currentPage, currentLikedPage, isLoading, error } =
     useSelector(selectProjects);
 
   const [selectedProject, setSelectedProject] = useState("");
@@ -25,6 +26,8 @@ const ProjectList: FC = () => {
 
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> =
     useDispatch();
+  
+  console.log('projectList current', currentPage)
   
   useEffect(() => {
     dispatch(paginate({ page: currentPage, limit: 4 }));
@@ -89,6 +92,7 @@ const ProjectList: FC = () => {
       dispatch(like(payloadRemoveLike));
       if (name === "dislike") {
         dispatch(dislike(payloadAddDislike));
+        dispatch(getLikedProjects({ page: currentLikedPage > 1 ? currentLikedPage - 1 : currentLikedPage, limit: 4 }));
         return;
       }
       return;
@@ -104,6 +108,12 @@ const ProjectList: FC = () => {
     
     if (name === "like") {
       dispatch(like(payloadAddLike));
+      dispatch(
+        getLikedProjects({
+          page: currentLikedPage > 1 ? currentLikedPage - 1 : currentLikedPage,
+          limit: 4,
+        })
+      );
       return;
     }
     if (name === "dislike") {

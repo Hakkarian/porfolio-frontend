@@ -21,6 +21,7 @@ export interface IProjectState {
     projects: IProject[],
     favorite: IProject[],
     currentPage: number,
+    currentLikedPage: number,
     totalPages: number,
     isLoading: boolean,
     error: string | null

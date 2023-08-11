@@ -9,6 +9,7 @@ import {
   getAllComments,
   getLikedProjects,
   like,
+  paginate,
 } from "../../redux/operations";
 import CommentList from "../CommentList";
 import { ProjectItemCss, ProjectListCss } from "../ProjectList/ProjectList.styled";
@@ -17,19 +18,16 @@ import { NotLikeButton } from "./LikedList.styled";
 const LikedList: FC = () => {
     const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
   const token = useSelector(selectToken);
-  const {user} = useSelector(selectUser);
+  const {user, isLoading} = useSelector(selectUser);
   const favorite = useSelector(selectFavorite);
-  const {isLoading} = useSelector(selectUser);
-  const { currentPage } = useSelector(selectProjects);
+  const { currentPage, currentLikedPage } = useSelector(selectProjects);
   const [selectedProject, setSelectedProject] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [content, setContent] = useState("");
 
-  console.log(favorite)
-
   useEffect(() => {
-    dispatch(getLikedProjects({page: currentPage, limit: 4}));
-  }, [dispatch, currentPage]);
+    dispatch(getLikedProjects({ page: currentLikedPage, limit: 4 }));
+  }, [dispatch, currentLikedPage]);
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
@@ -66,13 +64,23 @@ const LikedList: FC = () => {
       likes: likes - 1 < 0 ? 0 : likes - 1,
       id: projectId,
       liked,
-      page: currentPage,
+      page: currentLikedPage,
       limit: 4,
     };
     const likedUser = liked.find((item: string) => item === user.userId);
     if (likedUser) {
-      dispatch(like(payloadRemoveLike));
-      dispatch(getLikedProjects({ page: currentPage, limit: 4 }));
+      dispatch(like(payloadRemoveLike))
+        .then(() =>
+          dispatch(getLikedProjects({ page: currentLikedPage, limit: 4 }))
+        )
+        .then(() =>
+          dispatch(
+            paginate({
+              page: currentPage > 1 ? currentPage - 1 : currentPage,
+              limit: 4,
+            })
+          )
+        );
       return;
     }
   };

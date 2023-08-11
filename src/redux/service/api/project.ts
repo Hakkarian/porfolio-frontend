@@ -61,6 +61,7 @@ const projectApi = {
         `/projects/${data.id}/like?page=${data.page}&limit=${data.limit}`,
         data
       );
+      console.log('liked api', result);
       return result;
     } catch (error) {
       console.log(error);
