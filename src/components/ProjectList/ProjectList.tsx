@@ -90,6 +90,12 @@ const ProjectList: FC = () => {
     const dislikedUser = disliked.find((item: string) => item === user.userId);
     if (likedUser) {
       dispatch(like(payloadRemoveLike));
+      dispatch(
+        getLikedProjects({
+          page: 1,
+          limit: 4,
+        })
+      );
       if (name === "dislike") {
         dispatch(dislike(payloadAddDislike));
         dispatch(getLikedProjects({ page: currentLikedPage > 1 ? currentLikedPage - 1 : currentLikedPage, limit: 4 }));
@@ -101,6 +107,12 @@ const ProjectList: FC = () => {
       dispatch(dislike(payloadRemoveDislike));
       if (name === "like") {
         dispatch(like(payloadAddLike));
+        dispatch(
+          getLikedProjects({
+            page: 1,
+            limit: 4,
+          })
+        );
         return;
       }
       return;

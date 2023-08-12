@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, FC, useState, useEffect, useCallback } from "react";
+import { ChangeEvent, MouseEvent, FC, useState, useEffect, useCallback, useLayoutEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 
@@ -25,8 +25,17 @@ const LikedList: FC = () => {
   const [showComments, setShowComments] = useState(false);
   const [content, setContent] = useState("");
 
-  useEffect(() => {
-    dispatch(getLikedProjects({ page: currentLikedPage, limit: 4 }));
+  console.log('fav', favorite)
+
+  useLayoutEffect(() => {
+    setTimeout(() => {
+      console.log('favorite', favorite)
+      if (favorite.length !== 0) {
+        dispatch(getLikedProjects({ page: currentLikedPage, limit: 4 }));
+      } else {
+        dispatch(getLikedProjects({ page: 1, limit: 4 }));
+      }
+    }, 2000)
   }, [dispatch, currentLikedPage]);
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -70,17 +79,9 @@ const LikedList: FC = () => {
     const likedUser = liked.find((item: string) => item === user.userId);
     if (likedUser) {
       dispatch(like(payloadRemoveLike))
-        .then(() =>
-          dispatch(getLikedProjects({ page: currentLikedPage, limit: 4 }))
-        )
-        .then(() =>
-          dispatch(
-            paginate({
-              page: currentPage > 1 ? currentPage - 1 : currentPage,
-              limit: 4,
-            })
-          )
-        );
+      if (favorite.length === 1) {
+        dispatch(getLikedProjects({ page: currentLikedPage > 1 ? currentLikedPage - 1 : 1, limit: 4 }));
+      }
       return;
     }
   };
