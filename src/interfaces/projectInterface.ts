@@ -23,6 +23,7 @@ export interface IProjectState {
     currentPage: number,
     currentLikedPage: number,
     totalPages: number,
+    totalLikedPages: number,
     isLoading: boolean,
     error: string | null
 }

@@ -7,10 +7,9 @@ import { selectProjects } from "../../redux/selectors";
 
 const LikedPagination: FC = () => {
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
-  const {currentLikedPage} = useSelector(selectProjects);
-
-  const { totalPages } = useSelector(selectProjects);
-  console.log('totalPages', totalPages)
+  const { currentLikedPage, totalLikedPages } = useSelector(selectProjects);
+  
+  console.log('totalPages', totalLikedPages)
   return (
     <>
 
@@ -24,7 +23,7 @@ const LikedPagination: FC = () => {
           Previous
         </button>
       )}
-      {currentLikedPage < totalPages && (
+      {currentLikedPage < totalLikedPages && (
         <button
           type="button"
           onClick={() =>

@@ -31,7 +31,7 @@ const ProjectList: FC = () => {
   
   useEffect(() => {
     dispatch(paginate({ page: currentPage, limit: 4 }));
-  }, [dispatch]);
+  }, [dispatch, currentPage]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);

@@ -9,6 +9,7 @@ const initialState: IProjectState = {
   currentPage: 1,
   currentLikedPage: 1,
   totalPages: 1,
+  totalLikedPages: 1,
   isLoading: false,
   error: null,
 };
@@ -41,7 +42,7 @@ const projectSlice = createSlice({
         state.isLoading = false;
         state.favorite = payload.favorite as IProject[];
         state.currentLikedPage = payload.currentLikedPage;
-        state.totalPages = payload.totalPages;
+        state.totalLikedPages = payload.totalLikedPages;
       })
       .addCase(addProject.fulfilled, (state, action) => {
         state.isLoading = false;

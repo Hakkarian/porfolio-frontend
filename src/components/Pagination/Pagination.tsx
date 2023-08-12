@@ -8,7 +8,8 @@ import { selectProjects } from '../../redux/selectors';
 const Pagination: FC = () => {
     const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
 
-    const { totalPages } = useSelector(selectProjects);
+  const { totalPages } = useSelector(selectProjects);
+  console.log(totalPages)
   return (
     <>
       <ul>

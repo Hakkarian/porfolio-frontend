@@ -4,6 +4,7 @@ import { instance, setToken } from "./user"
 const projectApi = {
   getPaginatedProjects: async (data: {page: number, limit: number}) => {
     const { data: result } = await instance.get(`/projects?page=${data.page}&limit=${data.limit}`);
+    console.log('paginate get api', result)
     return result;
   },
   getLikedProjects: async (data: {page: number, limit: number}) => {
