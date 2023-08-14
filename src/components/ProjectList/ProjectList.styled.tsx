@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Button } from "../../shared";
 
 export const ProjectListCss = styled.ul`
     display: flex;
@@ -102,3 +103,13 @@ export const ProjectItemCss = styled.li`
     width: 100%;
   }
 `;
+
+export const TopCss = styled(Button)`
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  margin-top: -5rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 100%;
+`

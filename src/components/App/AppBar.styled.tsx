@@ -118,4 +118,20 @@ export const AvatarUsername = styled.div`
   display: flex;
   align-items: center;
   column-gap: 1.25rem;
+
+  .header__avatar > img {
+    width: 40;
+    height: 40;
+
+    border: 1px dashed #000;
+    border-radius: 1rem 0.5rem;
+
+    transition: border 250ms ease-in-out, border-radius 250ms ease-in-out;
+
+    &:hover,
+    &:focus {
+      border: 1px dashed #fff;
+      border-radius: 0.5rem 1rem;
+    }
+  }
 `;

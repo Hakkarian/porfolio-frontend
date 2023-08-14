@@ -30,12 +30,14 @@ const AppBar: FC = () => {
           <UserWrap className="header__user-wrap">
             {user && (
               <AvatarUsername className="header__avatar-username">
+                <div className='header__avatar'>
                 <img
                   src={user?.avatar.url}
                   alt="avatar"
                   width={40}
                   height={40}
-                />
+                  />
+                  </div>
                 <p>Welcome, {user?.username}</p>
               </AvatarUsername>
             )}

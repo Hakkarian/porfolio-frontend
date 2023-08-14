@@ -21,6 +21,7 @@ import { ActionType, IBoolUser, IUpdUser } from "../../interfaces";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import {handleUpdate} from "../../shared";
+import { FormCss } from "./Profile.styled";
 
 const validationSchema = () => {
   return Yup.object().shape({
@@ -115,37 +116,40 @@ const Profile: FC = () => {
     >
       {({ errors, values }) => {
         return (
-          <Form>
-            {edit.avatar ? (
-              <>
-                <button
-                  type="button"
-                  name="avatar"
-                  onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
-                >
-                  Confirm
-                </button>
-                <input
-                  type="file"
-                  name="avatar"
-                  onChange={handleAvatarChange}
-                />
-              </>
-            ) : (
-              <>
-                <button type="button" name="avatar" onClick={handleEdit}>
-                  Edit
-                </button>
-                {user?.avatar && (
-                  <img
-                    src={user?.avatar.url || user?.user.avatar.url}
-                    alt="avatar"
-                    width={40}
-                    height={40}
+          <FormCss>
+            <div className="form__avatar">
+              {edit.avatar ? (
+                <>
+                  <button
+                    type="button"
+                    name="avatar"
+                    onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
+                  >
+                    Confirm
+                  </button>
+                  <input
+                    type="file"
+                    name="avatar"
+                    onChange={handleAvatarChange}
                   />
-                )}
-              </>
-            )}
+                </>
+              ) : (
+                <>
+                  <button type="button" name="avatar" onClick={handleEdit}>
+                    Edit
+                  </button>
+                  {user?.avatar && (
+                    <img
+                      src={user?.avatar.url || user?.user.avatar.url}
+                      alt="avatar"
+                      width={100}
+                      height={100}
+                    />
+                  )}
+                </>
+              )}
+            </div>
+            <div className="form__info">
             <label>
               {edit.username ? (
                 <>
@@ -282,8 +286,9 @@ const Profile: FC = () => {
                   />
                 </>
               )}
-            </label>
-          </Form>
+              </label>
+              </div>
+          </FormCss>
         );
       }}
     </Formik>

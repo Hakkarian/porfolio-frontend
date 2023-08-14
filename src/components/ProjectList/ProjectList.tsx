@@ -12,17 +12,30 @@ import {
   getLikedProjects,
 } from "../../redux/operations";
 import CommentList from "../CommentList";
-import { ProjectItemCss, ProjectListCss } from "./ProjectList.styled";
+import { ProjectItemCss, ProjectListCss, TopCss } from "./ProjectList.styled";
 
 const ProjectList: FC = () => {
   const { user } = useSelector(selectUser);
   const token = useSelector(selectToken);
   const { projects, currentPage, currentLikedPage, isLoading, error } =
     useSelector(selectProjects);
+  
 
   const [selectedProject, setSelectedProject] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [content, setContent] = useState("");
+  const [toTop, setToTop] = useState(false);
+  
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 100) {
+        setToTop(true);
+      }
+      else {
+        setToTop(false);
+      }
+    })
+  }, []);
 
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> =
     useDispatch();
@@ -224,6 +237,7 @@ const ProjectList: FC = () => {
           ))}
         </ProjectListCss>
       )}
+      {toTop && <TopCss onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>Top</TopCss>}
     </>
   );
 };
