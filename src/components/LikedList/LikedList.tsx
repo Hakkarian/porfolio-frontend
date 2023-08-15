@@ -25,7 +25,7 @@ const LikedList: FC = () => {
   const [showComments, setShowComments] = useState(false);
   const [content, setContent] = useState("");
 
-  console.log('fav', favorite)
+  console.log(user)
 
   useEffect(() => {
       if (favorite.length !== 0) {
@@ -89,8 +89,12 @@ const LikedList: FC = () => {
     }
   };
 
+  console.log(favorite.length === 0)
+
+
   return (
     <>
+      {favorite.length === 0 && <div>An error occured</div>}
       {favorite.length !== 0 && (
         <ProjectListCss>
           {favorite.map((item: IProject) => (

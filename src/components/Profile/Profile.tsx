@@ -76,7 +76,7 @@ const Profile: FC = () => {
     avatar: false,
   });
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => { };
 
   const handleEdit = (e: MouseEvent<HTMLButtonElement>) => {
     const { name } = e.target as HTMLButtonElement;
@@ -108,7 +108,7 @@ const Profile: FC = () => {
   };
 
   return (
-    <Formik
+     <Formik
       enableReinitialize
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -150,149 +150,149 @@ const Profile: FC = () => {
               )}
             </div>
             <div className="form__info">
-            <label>
-              {edit.username ? (
-                <>
-                  <button
-                    type="button"
-                    name="username"
-                    onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
-                  >
-                    Confirm
-                  </button>
-                  <Field
-                    type="name"
-                    name="username"
-                    placeholder="Enter your name..."
-                    defaultValue={user.username}
-                  />
-                </>
-              ) : (
-                <>
-                  <button type="button" name="username" onClick={handleEdit}>
-                    Edit
-                  </button>
-                  <Field
-                    type="name"
-                    name="username"
-                    placeholder="Enter your name..."
-                    value={user.username || ""}
-                    readOnly
-                  />
-                </>
-              )}
-            </label>
-            <label>
-              <Field
-                type="email"
-                name="email"
-                placeholder="Enter your email..."
-                value={user?.email || ""}
-                readOnly
-              />
-            </label>
-            <label>
-              {edit.birthday ? (
-                <>
-                  <button
-                    type="button"
-                    name="birthday"
-                    onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
-                  >
-                    Confirm
-                  </button>
-                  <Field
-                    type="date"
-                    name="birthday"
-                    placeholder="Enter your birthday..."
-                    defaultValue={user.birthday}
-                  />
-                </>
-              ) : (
-                <>
-                  <button type="button" name="birthday" onClick={handleEdit}>
-                    Edit
-                  </button>
-                  <Field
-                    type="date"
-                    name="birthday"
-                    placeholder="Enter your birthday..."
-                    value={user?.birthday || ""}
-                    readOnly
-                  />
-                </>
-              )}
-            </label>
-            <label>
-              {edit.location ? (
-                <>
-                  <button
-                    type="button"
-                    name="location"
-                    onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
-                  >
-                    Confirm
-                  </button>
-                  <Field
-                    type="name"
-                    name="location"
-                    placeholder="Enter your location..."
-                    defaultValue={user.location}
-                  />
-                </>
-              ) : (
-                <>
-                  <button type="button" name="location" onClick={handleEdit}>
-                    Edit
-                  </button>
-                  <Field
-                    type="name"
-                    name="location"
-                    placeholder="Enter your location..."
-                    value={user?.location || ""}
-                    readOnly
-                  />
-                </>
-              )}
-            </label>
-            <label>
-              {edit.phone ? (
-                <>
-                  <button
-                    type="button"
-                    name="phone"
-                    onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
-                  >
-                    Confirm
-                  </button>
-                  <Field
-                    type="text"
-                    name="phone"
-                    placeholder="Enter your phone..."
-                    defaultValue={user.phone}
-                  />
-                </>
-              ) : (
-                <>
-                  <button type="button" name="phone" onClick={handleEdit}>
-                    Edit
-                  </button>
-                  <Field
-                    type="text"
-                    name="phone"
-                    placeholder="Enter your phone..."
-                    value={user?.phone || ""}
-                    readOnly
-                  />
-                </>
-              )}
+              <label>
+                {edit.username ? (
+                  <>
+                    <button
+                      type="button"
+                      name="username"
+                      onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
+                    >
+                      Confirm
+                    </button>
+                    <Field
+                      type="name"
+                      name="username"
+                      placeholder="Enter your name..."
+                      defaultValue={user.username}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <button type="button" name="username" onClick={handleEdit}>
+                      Edit
+                    </button>
+                    <Field
+                      type="name"
+                      name="username"
+                      placeholder="Enter your name..."
+                      value={user.username || ""}
+                      readOnly
+                    />
+                  </>
+                )}
               </label>
-              </div>
-          </FormCss>
+              <label>
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email..."
+                  value={user?.email || ""}
+                  readOnly
+                />
+              </label>
+              <label>
+                {edit.birthday ? (
+                  <>
+                    <button
+                      type="button"
+                      name="birthday"
+                      onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
+                    >
+                      Confirm
+                    </button>
+                    <Field
+                      type="date"
+                      name="birthday"
+                      placeholder="Enter your birthday..."
+                      defaultValue={user.birthday}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <button type="button" name="birthday" onClick={handleEdit}>
+                      Edit
+                    </button>
+                    <Field
+                      type="date"
+                      name="birthday"
+                      placeholder="Enter your birthday..."
+                      value={user?.birthday || ""}
+                      readOnly
+                    />
+                  </>
+                )}
+              </label>
+              <label>
+                {edit.location ? (
+                  <>
+                    <button
+                      type="button"
+                      name="location"
+                      onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
+                    >
+                      Confirm
+                    </button>
+                    <Field
+                      type="name"
+                      name="location"
+                      placeholder="Enter your location..."
+                      defaultValue={user.location}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <button type="button" name="location" onClick={handleEdit}>
+                      Edit
+                    </button>
+                    <Field
+                      type="name"
+                      name="location"
+                      placeholder="Enter your location..."
+                      value={user?.location || ""}
+                      readOnly
+                    />
+                  </>
+                )}
+              </label>
+              <label>
+                {edit.phone ? (
+                  <>
+                    <button
+                      type="button"
+                      name="phone"
+                      onClick={(e) => handleUpd(e, setEdit, dispatch, values)}
+                    >
+                      Confirm
+                    </button>
+                    <Field
+                      type="text"
+                      name="phone"
+                      placeholder="Enter your phone..."
+                      defaultValue={user.phone}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <button type="button" name="phone" onClick={handleEdit}>
+                      Edit
+                    </button>
+                    <Field
+                      type="text"
+                      name="phone"
+                      placeholder="Enter your phone..."
+                      value={user?.phone || ""}
+                      readOnly
+                    />
+                  </>
+                )}
+              </label>
+            </div>
+          </FormCss> 
         );
       }}
     </Formik>
-  );
+  )
 };
 
 export default Profile;

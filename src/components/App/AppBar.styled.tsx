@@ -41,6 +41,7 @@ export const NavLinkCss = styled(NavLink)`
   gap: 5px;
   transition: color 250ms ease-in-out;
 
+
   &::after {
     display: inline-block;
     content: " ";
@@ -57,7 +58,7 @@ export const NavLinkCss = styled(NavLink)`
   &:hover,
   &:focus, 
   &.active {
-    color: #212121;
+    color: $
 
     &::after {
       transform: scaleX(1);
@@ -72,6 +73,8 @@ export const UserWrap = styled.div`
   padding-right: 1rem;
   display: flex;
   gap: 5rem;
+  
+  transition: background-color 250ms ease-in-out;
 
   p {
     margin-top: 4px;

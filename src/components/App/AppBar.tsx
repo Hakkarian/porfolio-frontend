@@ -7,11 +7,16 @@ import { useSelector } from 'react-redux';
 import { selectToken, selectUser } from '../../redux/selectors';
 import { AvatarUsername, HeaderCss, Nav, NavLinkCss, UserWrap } from './AppBar.styled';
 import { Button } from '../../shared/CssTools.styled';
+import DarkMode from '../DarkMode/DarkMode';
 
-const AppBar: FC = () => {
+export interface AppProps {
+  toggleTheme: () => void
+}
+
+const AppBar: FC<AppProps> = ({toggleTheme}) => {
   const { user } = useSelector(selectUser);
-  // const avatar = useSelector(selectAvatar);
   const token = useSelector(selectToken);
+
 
     const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
 
@@ -41,6 +46,7 @@ const AppBar: FC = () => {
                 <p>Welcome, {user?.username}</p>
               </AvatarUsername>
             )}
+            <DarkMode toggleTheme={toggleTheme}/>
             <Button type="button" className='header__button--transparent-bg' onClick={handleLogout}>
               Logout
             </Button>

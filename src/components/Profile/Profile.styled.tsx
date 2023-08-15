@@ -16,6 +16,12 @@ export const FormCss = styled.section`
     justify-content: center;
     gap: 0.5rem;
 
+    input {
+        display: flex;
+        flex-direction: column;
+        border: none;
+    }
+
     button {
       padding: 0.2rem 0.5rem;
       border: 1px solid transparent;
@@ -52,6 +58,7 @@ export const FormCss = styled.section`
 
       button {
         padding: 0.2rem 0.5rem;
+        width: 5rem;
         border: 1px solid transparent;
         background-color: #000;
         color: #fff;

@@ -16,12 +16,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <PersistGate persistor={persistor}>
-      <Provider store={store}>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-      </Provider>
-    </PersistGate>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );

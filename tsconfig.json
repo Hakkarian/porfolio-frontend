@@ -17,12 +17,14 @@
     "noEmit": true,
     "outDir": "./tsic",
     "rootDir": "./src",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "typeRoots": ["emotion.d.ts"]
 }

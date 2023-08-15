@@ -1,19 +1,24 @@
-interface ITheme {
-    [key: string]: { [key: string]: string }
+import { Theme } from "@emotion/react";
+
+export interface ILightTheme {
+    link: string,
+    linkHover: string
+}
+export interface IDarkTheme {
+  colors: {
+    link: string;
+    linkHover: string;
+  };
 }
 
-let theme: ITheme;
-
-theme = {
-  colors: {
-    red: "red",
-  },
-  background: {
-    red: "#da1e37",
-  },
-  shadow: {
-    default: "rgb(38, 57, 77) 0px 20px 30px -10px",
-  },
+export const lightTheme: Partial<Theme> | ((outerTheme: Theme) => Theme) = {
+    link: "#269fe5",
+    linkHover: 'navy'
 };
 
-export default theme
+export const darkTheme:
+  | Partial<Theme>
+  | ((outerTheme: Theme) => Theme) = {
+    link: "#f44336",
+    linkHover: "#f46136",
+};
