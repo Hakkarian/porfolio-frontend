@@ -19,6 +19,9 @@ transition: all 0.15s ease-out 0s;
 
   label[for="btn"] {
     position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(450%, -50%);
     width: calc(1rem * 4);
     height: calc(1rem * 2);
     background: #616774;
@@ -86,7 +89,8 @@ transition: all 0.15s ease-out 0s;
     justify-content: center;
     z-index: 1;
     overflow: hidden;
-    animation: move-thumb 3s ease 0s 1;
+    animation: move-thumb 3s ease 5s 1;
+
   }
 
   #btn:checked + label .thumb {
@@ -120,6 +124,13 @@ transition: all 0.15s ease-out 0s;
     transform: scaleY(0.9);
     animation: move-eyelid-top 3s ease 0s 1;
     filter: drop-shadow(0px 2px 2px #000);
+
+  }
+
+  .thumb:before {
+    &:hover, &:focus {
+      top: -55%;
+    }
   }
 
   .thumb:after {
@@ -133,6 +144,10 @@ transition: all 0.15s ease-out 0s;
     border-radius: 0;
     animation-name: move-eyelid-bot;
     filter: drop-shadow(0px -2px 2px #000c);
+
+    &:hover, &:focus {
+      top: 100%;
+    }
   }
 
   #btn:checked + label .thumb:before {
@@ -158,6 +173,8 @@ transition: all 0.15s ease-out 0s;
     left: calc(1rem / 3.5);
     filter: blur(0.5px);
     animation: move-eye 3s ease 0s 1;
+
+    }
   }
 
   #btn:checked + label .thumb .eye {
@@ -193,18 +210,6 @@ transition: all 0.15s ease-out 0s;
     }
   }
 
-  @keyframes move-color {
-    0%,
-    20%,
-    80%,
-    100% {
-      left: 100%;
-    }
-    30%,
-    70% {
-      left: 0%;
-    }
-  }
 
   @keyframes move-eye {
     0%,

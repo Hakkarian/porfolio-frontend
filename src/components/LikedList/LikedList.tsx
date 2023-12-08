@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, FC, useState, useEffect, useCallback, useLayoutEffect } from "react";
+import { ChangeEvent, MouseEvent, FC, useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 
@@ -9,7 +9,6 @@ import {
   getAllComments,
   getLikedProjects,
   like,
-  paginate,
 } from "../../redux/operations";
 import CommentList from "../CommentList";
 import { ProjectItemCss, ProjectListCss } from "../ProjectList/ProjectList.styled";
@@ -20,7 +19,7 @@ const LikedList: FC = () => {
   const token = useSelector(selectToken);
   const {user, isLoading} = useSelector(selectUser);
   const favorite = useSelector(selectFavorite);
-  const { currentPage, currentLikedPage } = useSelector(selectProjects);
+  const { currentLikedPage } = useSelector(selectProjects);
   const [selectedProject, setSelectedProject] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [content, setContent] = useState("");

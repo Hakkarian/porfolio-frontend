@@ -76,6 +76,11 @@ export const UserWrap = styled.div`
   
   transition: background-color 250ms ease-in-out;
 
+  .header__theme-logout {
+    display: flex;
+    align-items: center;
+  }
+
   p {
     margin-top: 4px;
     display: flex;

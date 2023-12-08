@@ -1,6 +1,6 @@
-import { FC, lazy, Suspense, useEffect, useState, useCallback } from 'react'
+import { FC, lazy, Suspense, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { Routes, Route, useSearchParams, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, useSearchParams } from 'react-router-dom';
 import { currenti } from '../../redux/operations';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import AppBar from './AppBar';
@@ -11,7 +11,7 @@ import { selectToken } from '../../redux/selectors';
 import { setGoogleUser } from '../../redux/slice/userSlice';
 import { ContainerCss } from '../../utils';
 import { ThemeProvider } from '@emotion/react';
-import { lightTheme, darkTheme, ILightTheme } from '../../constants/theme';
+import { lightTheme, darkTheme } from '../../constants/theme';
 
 const HomePage = lazy(() => import("../../pages/HomePage"));
 const ProjectPage = lazy(() => import('../../pages/ProjectPage'));

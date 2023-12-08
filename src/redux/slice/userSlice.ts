@@ -42,8 +42,10 @@ const userSlice = createSlice({
       })
       .addCase(currenti.fulfilled, (state, {payload}) => {
         state.isLoading = false
-        state.user = payload.user;
-        state.token = payload.token;
+        if (payload) {
+          state.user = payload.user;
+          state.token = payload.token;
+        }
       })
       .addCase(updUser.fulfilled, (state, {payload}) => {
         state.isLoading = false;

@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../redux/operations';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
@@ -16,7 +15,11 @@ export interface AppProps {
 const AppBar: FC<AppProps> = ({toggleTheme}) => {
   const { user } = useSelector(selectUser);
   const token = useSelector(selectToken);
+  const userone = useSelector(selectUser);
 
+  console.log(userone)
+
+  console.log(token)
 
     const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
 
@@ -35,21 +38,25 @@ const AppBar: FC<AppProps> = ({toggleTheme}) => {
           <UserWrap className="header__user-wrap">
             {user && (
               <AvatarUsername className="header__avatar-username">
-                <div className='header__avatar'>
-                <img
-                  src={user?.avatar.url}
-                  alt="avatar"
-                  width={40}
-                  height={40}
+                <div className="header__avatar">
+                  <img
+                    src={user?.avatar.url}
+                    alt="avatar"
+                    width={40}
+                    height={40}
                   />
-                  </div>
+                </div>
                 <p>Welcome, {user?.username}</p>
               </AvatarUsername>
             )}
-            <DarkMode toggleTheme={toggleTheme}/>
-            <Button type="button" className='header__button--transparent-bg' onClick={handleLogout}>
-              Logout
-            </Button>
+                <DarkMode toggleTheme={toggleTheme} />
+              <Button
+                type="button"
+                className="header__button--transparent-bg"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
           </UserWrap>
         </>
       ) : (
