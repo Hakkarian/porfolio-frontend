@@ -2,7 +2,9 @@ import React, { FC } from 'react';
 import { ContCss } from './DarkMode.styled';
 import { AppProps } from '../App/AppBar';
 
-const DarkMode: FC<AppProps> = ({toggleTheme}) => {
+const DarkMode: FC<AppProps> = ({ toggleTheme }) => {
+  
+  // custom light/dark switcher
 
   return (
     <ContCss className="content">

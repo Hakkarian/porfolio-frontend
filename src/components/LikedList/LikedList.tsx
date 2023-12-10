@@ -24,8 +24,7 @@ const LikedList: FC = () => {
   const [showComments, setShowComments] = useState(false);
   const [content, setContent] = useState("");
 
-  console.log(user)
-
+  // if an array of favorite projects is empty, display 1 page of projects overall
   useEffect(() => {
       if (favorite.length !== 0) {
         dispatch(getLikedProjects({ page: currentLikedPage, limit: 4 }));
@@ -34,10 +33,13 @@ const LikedList: FC = () => {
       }
   }, [dispatch, currentLikedPage]);
 
+  // handle input writing
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   }, []);
 
+  // if user typed on the show comments button, it will see a list of comments
+  // else close the comments window
   const handleButtonClick = useCallback((id: string): void => {
     if (showComments && selectedProject === id) {
       setShowComments(false);

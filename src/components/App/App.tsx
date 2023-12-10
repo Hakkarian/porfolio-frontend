@@ -13,6 +13,9 @@ import { ContainerCss } from '../../utils';
 import { ThemeProvider } from '@emotion/react';
 import { lightTheme, darkTheme } from '../../constants/theme';
 
+// allows to load a module asynchronously, when it actually needed
+// pros: helps to improve the initial loading time of application
+// because code that is lazy imported is not incorporated into the initial bandle
 const HomePage = lazy(() => import("../../pages/HomePage"));
 const ProjectPage = lazy(() => import('../../pages/ProjectPage'));
 const RegisterPage = lazy(() => import("../../pages/RegisterPage"));
@@ -27,14 +30,14 @@ const App: FC = () => {
 
   const isDarkTheme = theme === 'dark';
 
-  console.log(theme)
-
+  // handle being loginized even after reloads
   useEffect(() => {
     if (token) {
       dispatch(currenti());
     }
   }, [dispatch, token])
 
+  // handle entrance for google user
   useEffect(() => {
     const token = searchParams.get("token");
     const username = searchParams.get("username");
@@ -63,7 +66,7 @@ const App: FC = () => {
     setSearchParams(searchParams);
   }, [searchParams, setSearchParams, token, dispatch])
 
-
+  // toggle theme between light and dark
   const toggleTheme = () => {
     setTheme(isDarkTheme ? 'light' : 'dark');
     if (isDarkTheme) {
@@ -76,23 +79,25 @@ const App: FC = () => {
   return (
     <>
       <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-              <ContainerCss id="light">
-                <AppBar toggleTheme={toggleTheme} />
-                <Suspense fallback={<div>Loading...</div>}>
-                  <Routes>
-                    <Route index element={<HomePage />} />
-                    <Route path="/projects" element={<ProjectPage />} />
-                    <Route element={<PrivateView />}>
-                      <Route path="/user" element={<ProfilePage />} />
-                    </Route>
-                    <Route element={<RestrictedView />}>
-                      <Route path="/register" element={<RegisterPage />} />
-                      <Route path="/login" element={<LoginPage />} />
-                    </Route>
-                  </Routes>
-                </Suspense>
-              </ContainerCss>
-        </ThemeProvider>
+        <ContainerCss id="light">
+          <AppBar toggleTheme={toggleTheme} />
+          {/* Toggle loading for every lazy component */}
+          <Suspense fallback={<div>Loading...</div>}>
+            {/* Handle routes. Homepage and ProjectPage is free-to-reach. ProfilePage under private view, members-only. RestrictedView newbies-only. */}
+            <Routes>
+              <Route index element={<HomePage />} />
+              <Route path="/projects" element={<ProjectPage />} />
+              <Route element={<PrivateView />}>
+                <Route path="/user" element={<ProfilePage />} />
+              </Route>
+              <Route element={<RestrictedView />}>
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/login" element={<LoginPage />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </ContainerCss>
+      </ThemeProvider>
     </>
   );
 }

@@ -20,6 +20,8 @@ const ProjectList: FC = () => {
   const { projects, currentPage, currentLikedPage, isLoading, error } =
     useSelector(selectProjects);
   
+  console.log('ppp', projects)
+  
 
   const [selectedProject, setSelectedProject] = useState("");
   const [showComments, setShowComments] = useState(false);

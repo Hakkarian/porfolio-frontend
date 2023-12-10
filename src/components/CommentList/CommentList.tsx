@@ -9,6 +9,7 @@ import { ThunkDispatch } from '@reduxjs/toolkit';
 
 
 const CommentList: FC<CommentListProps> = ({ projectId }) => {
+  // typescript dispatch preparations
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> =
     useDispatch();
   const comments = useSelector(selectComments);
@@ -17,23 +18,30 @@ const CommentList: FC<CommentListProps> = ({ projectId }) => {
   const [edit, setEdit] = useState(false);
   const [text, setText] = useState("");
 
+  // handle comment update
   const handleUpdate = (comment: { content: string, _id: string }) => {
+    // renaming the id
     const { _id: id } = comment;
+    // passing to the payload, which contains text, id of the comment, id of the project.
+    // if user didn't type anything, then comment remains unchanged
     const payload = {
       content: text ? text : comment.content, id, projectId
     }
     dispatch(updComment(payload))
+    // after comment is being updated, edit button returns to original state
     setEdit(false);
     setText("");
   }
-
+  // handle input writing
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value)
   }
+  // handle change of an edit button when user started updating the message
   const handleEdit = (id: string) => {
     setEdit(true)
     setSelectedComment(id)
   }
+  // removing the comment
   const handleDelete = (projectId: string, id: string) => {
     const payload = {
       projectId, id
@@ -42,8 +50,11 @@ const CommentList: FC<CommentListProps> = ({ projectId }) => {
   }
     return (
       <>
+        {/*Comments start showing only when array is not empty*/}
         {comments.length !== 0 && (
           <ul>
+            {/*For every comment inside the array, build it by the comment's blueprint. 
+            Each comment has Confirm/Edit and Delete Button, author tag, avatar of the user, and the comment text*/}
             {comments.map((comment: IComment) => <li key={comment._id}>
                 {user.userId === comment.author.userId && <div>{selectedComment === comment._id && edit ? (
                   <button type="button" onClick={() => handleUpdate(comment)}>
@@ -79,5 +90,5 @@ const CommentList: FC<CommentListProps> = ({ projectId }) => {
       </>
     );
 }
-
+// CommentList is memoized in order to prevent additional rerenderings
 export default memo(CommentList);
