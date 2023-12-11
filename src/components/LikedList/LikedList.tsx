@@ -1,8 +1,20 @@
-import { ChangeEvent, MouseEvent, FC, useState, useEffect, useCallback } from "react";
+import {
+  ChangeEvent,
+  MouseEvent,
+  FC,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 
-import { selectFavorite, selectProjects, selectToken, selectUser } from "../../redux/selectors";
+import {
+  selectFavorite,
+  selectProjects,
+  selectToken,
+  selectUser,
+} from "../../redux/selectors";
 import { IProject } from "../../interfaces";
 import {
   addComment,
@@ -11,13 +23,16 @@ import {
   like,
 } from "../../redux/operations";
 import CommentList from "../CommentList";
-import { ProjectItemCss, ProjectListCss } from "../ProjectList/ProjectList.styled";
+import {
+  ProjectItemCss,
+  ProjectListCss,
+} from "../ProjectList/ProjectList.styled";
 import { NotLikeButton } from "./LikedList.styled";
 
 const LikedList: FC = () => {
-    const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
+  const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
   const token = useSelector(selectToken);
-  const {user, isLoading} = useSelector(selectUser);
+  const { user, isLoading } = useSelector(selectUser);
   const favorite = useSelector(selectFavorite);
   const { currentLikedPage } = useSelector(selectProjects);
   const [selectedProject, setSelectedProject] = useState("");
@@ -26,11 +41,11 @@ const LikedList: FC = () => {
 
   // if an array of favorite projects is empty, display 1 page of projects overall
   useEffect(() => {
-      if (favorite.length !== 0) {
-        dispatch(getLikedProjects({ page: currentLikedPage, limit: 4 }));
-      } else {
-        dispatch(getLikedProjects({ page: 1, limit: 4 }));
-      }
+    if (favorite.length !== 0) {
+      dispatch(getLikedProjects({ page: currentLikedPage, limit: 4 }));
+    } else {
+      dispatch(getLikedProjects({ page: 1, limit: 4 }));
+    }
   }, [dispatch, currentLikedPage]);
 
   // handle input writing
@@ -40,33 +55,48 @@ const LikedList: FC = () => {
 
   // if user typed on the show comments button, it will see a list of comments
   // else close the comments window
-  const handleButtonClick = useCallback((id: string): void => {
-    if (showComments && selectedProject === id) {
-      setShowComments(false);
-    } else {
-      setShowComments(true);
-      setSelectedProject(id);
-      dispatch(getAllComments(id));
-    }
-  }, [showComments, selectedProject, dispatch]);
+  const handleButtonClick = useCallback(
+    (id: string): void => {
+      if (showComments && selectedProject === id) {
+        setShowComments(false);
+      } else {
+        setShowComments(true);
+        setSelectedProject(id);
+        dispatch(getAllComments(id));
+      }
+    },
+    [showComments, selectedProject, dispatch]
+  );
 
-  const handleSubmit = useCallback((id: string) => {
-    const payload = {
-      content,
-      id,
-    };
-    if (!token) {
-      alert("To add a comment you need to register");
-      return;
-    }
-    dispatch(addComment(payload));
-    setContent("");
-  }, [dispatch, token, content]);
+  // send the message while clicking on a button
+  // if you are not authorized, notify that user must register first
+  const handleSubmit = useCallback(
+    (id: string) => {
+      const payload = {
+        content,
+        id,
+      };
+      if (!token) {
+        alert("To add a comment you need to register");
+        return;
+      }
+      dispatch(addComment(payload));
+      setContent("");
+    },
+    [dispatch, token, content]
+  );
 
-  const removeFromFavorite = (item: IProject, e: MouseEvent<HTMLButtonElement>) => {
+  // remove the project from the list of liked projects
+  const removeFromFavorite = (
+    item: IProject,
+    e: MouseEvent<HTMLButtonElement>
+  ) => {
+    // stop from reloading
     e.stopPropagation();
     const { _id: projectId } = item;
     let { likes, liked } = item;
+    // we're removing like with help of the payload.
+    // If a total amount of likes is equal to zero, nothing happens.Else decrease the amount by one
     const payloadRemoveLike = {
       likes: likes - 1 < 0 ? 0 : likes - 1,
       id: projectId,
@@ -74,27 +104,37 @@ const LikedList: FC = () => {
       page: currentLikedPage,
       limit: 4,
     };
+    // search for a liked user
     const likedUser = liked.find((item: string) => item === user.userId);
+    // trigger the reduction of likes, if user liked current project,
+    // and reload the list of liked projects
     if (likedUser) {
-      dispatch(like(payloadRemoveLike))
+      dispatch(like(payloadRemoveLike));
       dispatch(
         getLikedProjects({
           page: currentLikedPage,
           limit: 4,
         })
       );
+      // if there is only one project left on not the first page, list renders previous page
+      // if "previous page" means first, then render the first page
+      // with 4 projects per page
       if (favorite.length === 1) {
-        dispatch(getLikedProjects({ page: currentLikedPage > 1 ? currentLikedPage - 1 : 1, limit: 4 }));
+        dispatch(
+          getLikedProjects({
+            page: currentLikedPage > 1 ? currentLikedPage - 1 : 1,
+            limit: 4,
+          })
+        );
       }
       return;
     }
   };
 
-  console.log(favorite.length === 0)
-
-
   return (
     <>
+      {/*If the list of favorites is empty, display an error message
+         If not empty, let's show the list of favorite projects, which user can remove from his own library*/}
       {favorite.length === 0 && <div>An error occured</div>}
       {favorite.length !== 0 && (
         <ProjectListCss>
