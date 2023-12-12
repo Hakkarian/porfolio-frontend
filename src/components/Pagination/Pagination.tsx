@@ -9,7 +9,9 @@ const Pagination: FC = () => {
     const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
 
   const { totalPages } = useSelector(selectProjects);
-  console.log(totalPages)
+  // select totalPages as a number. Pass this number as a length to an array,
+  // where each element is a button with a corresponding number
+  // on click, load next page
   return (
     <>
       <ul>

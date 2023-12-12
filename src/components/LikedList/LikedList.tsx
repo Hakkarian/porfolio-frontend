@@ -180,7 +180,7 @@ const LikedList: FC = () => {
                       : "Show Comments"}
                   </button>
                 </div>
-
+                {/*On click on the button, display a list of comments, owned by project where button "Show comments is located"*/}
                 {selectedProject === item._id && showComments && (
                   <div className="project__input__comments">
                     <div className="project__comments-wrap">

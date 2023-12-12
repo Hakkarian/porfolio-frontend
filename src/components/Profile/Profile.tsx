@@ -23,6 +23,9 @@ import { useDispatch } from "react-redux";
 import {handleUpdate} from "../../shared";
 import { FormCss } from "./Profile.styled";
 
+// validation schema and initial values will be needed later for Formik
+
+// in addition to server validation, we validate also a username, an email, a birthday, a location and a phone
 const validationSchema = () => {
   return Yup.object().shape({
     username: Yup.string()
@@ -53,6 +56,7 @@ const validationSchema = () => {
   });
 };
 
+// initial values will be empty string, and photo is null by default
 const initialValues = {
   username: "",
   email: "",
@@ -67,6 +71,9 @@ const Profile: FC = () => {
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> =
     useDispatch();
   const [avatar, setAvatar] = useState<File | null>(null);
+  // edit will be needed later as a conditional statement, true or false
+  // if true, field is editable
+  // if false - Read Only
   const [edit, setEdit] = useState({
     username: false,
     email: false,
@@ -77,6 +84,9 @@ const Profile: FC = () => {
   });
 
   const handleSubmit = () => { };
+
+  // in this function we edit values field by field 
+  // with respect to the object of Edits(as we've seen before) 
 
   const handleEdit = (e: MouseEvent<HTMLButtonElement>) => {
     const { name } = e.target as HTMLButtonElement;
@@ -91,17 +101,25 @@ const Profile: FC = () => {
   ) => {
     const { name } = e.target as HTMLButtonElement;
 
+    // if the value is an avatar, pass its value the object with its name as a property
+    // name as a second parameter
+    // setEdit function as third
+    // and dispatch as fourth
     if (name === "avatar") {
       handleUpdate({ [name]: avatar }, name, setEdit, dispatch);
+      // then make the avatar equal to zero and exit
       setAvatar(null);
       return;
     }
-
+    // if there are no an avatar field, pass inside the object just regular text
     handleUpdate({ [name]: values[name] }, name, setEdit, dispatch);
   };
 
+  // in this function we handle the change of the photo
   const handleAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // define the photo value
     const selectedFile = e.target.files?.[0];
+    // if it does not equal to zero, set the current state of an avatar to the selected photo
     if (selectedFile) {
       setAvatar(selectedFile);
     }
@@ -117,6 +135,11 @@ const Profile: FC = () => {
       {({ errors, values }) => {
         return (
           <FormCss>
+            {/* It is a form with six fields - name, email, birthday, location, phone and avatar. 
+                Each of fields have its own Edit and Confirm button, 
+                along with placeholders, textarea and read-only fields (except an avatar field) 
+                Is the user is clicked on the Edit button, he can edit the chosen field
+                and then press the Confirm button, to finish the action*/}
             <div className="form__avatar">
               {edit.avatar ? (
                 <>

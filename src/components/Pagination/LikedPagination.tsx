@@ -9,10 +9,11 @@ const LikedPagination: FC = () => {
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
   const { currentLikedPage, totalLikedPages } = useSelector(selectProjects);
   
-  console.log('totalPages', totalLikedPages)
+
   return (
     <>
-
+      {/*If current page is bigger than one, display the "Previous" button 
+      If less than total pages, return the "Next" button*/}
       {currentLikedPage > 1 && (
         <button
           type="button"

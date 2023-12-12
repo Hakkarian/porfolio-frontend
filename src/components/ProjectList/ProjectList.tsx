@@ -20,14 +20,13 @@ const ProjectList: FC = () => {
   const { projects, currentPage, currentLikedPage, isLoading, error } =
     useSelector(selectProjects);
   
-  console.log('ppp', projects)
-  
 
   const [selectedProject, setSelectedProject] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [content, setContent] = useState("");
   const [toTop, setToTop] = useState(false);
   
+  // when the user is scrolling, a button "to top" will appear
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 100) {
@@ -42,16 +41,17 @@ const ProjectList: FC = () => {
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> =
     useDispatch();
   
-  console.log('projectList current', currentPage)
-  
+  // fill the page with paginated set of projects, with up to 4 projects per page
   useEffect(() => {
     dispatch(paginate({ page: currentPage, limit: 4 }));
   }, [dispatch, currentPage]);
 
+  // handle change of state of the input
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value);
   };
 
+  // handle showing comments on pressing the button
   const handleButtonClick = (id: string): void => {
     if (showComments && selectedProject === id) {
       setShowComments(false);
@@ -62,6 +62,7 @@ const ProjectList: FC = () => {
     }
   };
 
+  // submit the comment to save it in the database
   const handleSubmit = (id: string) => {
     const payload = {
       content,
@@ -75,11 +76,27 @@ const ProjectList: FC = () => {
     setContent("");
   };
 
+  // add like or dislike to the project
+  // if like is added, remove the dislike and vice-versa
   const toggleReaction = (item: IProject, e: MouseEvent<HTMLButtonElement>) => {
+    // we're getting the name of the button (like or dislike)
+    // also an id of a project
+    // in addition a number of likes, dislikes,
+    // and two arrays of users who liked and disliked the project
     const { name } = e.target as HTMLButtonElement;
     const { _id: projectId } = item;
     let { likes, dislikes, liked, disliked } = item;
-    const payloadAddLike = { likes: likes + 1, id: projectId, liked, page: currentPage, limit: 4 };
+    // creating various payloads.
+    // Here we add a 1 to likes number, an id of a project,
+    // a page and a limit of projects per page
+    const payloadAddLike = {
+      likes: likes + 1,
+      id: projectId,
+      liked,
+      page: currentPage,
+      limit: 4,
+    };
+    // if likes - 1 is less than zero, display 0 or reduce the amount of likes by one
     const payloadRemoveLike = {
       likes: likes - 1 < 0 ? 0 : likes - 1,
       id: projectId,
@@ -87,6 +104,7 @@ const ProjectList: FC = () => {
       page: currentPage,
       limit: 4,
     };
+    // dislikes are basically the same
     const payloadAddDislike = {
       dislikes: dislikes + 1,
       id: projectId,
@@ -101,23 +119,38 @@ const ProjectList: FC = () => {
       page: currentPage,
       limit: 4,
     };
+    // here we find exact user who liked or disliked the project, and comparing him with the current user
+    // if one of the matches, continue to interact with likes and dislikes addition and reduction
+    // by found condition
     const likedUser = liked.find((item: string) => item === user.userId);
     const dislikedUser = disliked.find((item: string) => item === user.userId);
+    // if user has pressed the "Like" button already
+    // on click on the "Dislike" button reduce the amount of likes, and add a dislike
     if (likedUser) {
       dispatch(like(payloadRemoveLike));
       dispatch(
         getLikedProjects({
-          page: 1,
+          page: currentLikedPage > 1 ? currentLikedPage - 1 : currentLikedPage,
           limit: 4,
         })
       );
       if (name === "dislike") {
+        // and add dislike, if we pressed "Dislike" button
         dispatch(dislike(payloadAddDislike));
-        dispatch(getLikedProjects({ page: currentLikedPage > 1 ? currentLikedPage - 1 : currentLikedPage, limit: 4 }));
+        // and paginate with projects
+        dispatch(
+          getLikedProjects({
+            page:
+              currentLikedPage > 1 ? currentLikedPage - 1 : currentLikedPage,
+            limit: 4,
+          })
+        );
         return;
       }
       return;
     }
+    // if user has pressed the "Dislike" button already
+    // on click on the "Like" button reduce the amount of dislikes, and add a like
     if (dislikedUser) {
       dispatch(dislike(payloadRemoveDislike));
       if (name === "like") {
@@ -132,7 +165,7 @@ const ProjectList: FC = () => {
       }
       return;
     }
-    
+    // or just add a like on pressing the "Like" button
     if (name === "like") {
       dispatch(like(payloadAddLike));
       dispatch(
@@ -143,6 +176,7 @@ const ProjectList: FC = () => {
       );
       return;
     }
+    // or just add a dislike on pressing the "Dislike" button
     if (name === "dislike") {
       dispatch(dislike(payloadAddDislike));
       return;
@@ -154,6 +188,10 @@ const ProjectList: FC = () => {
   }
   return (
     <>
+      {/*Do not render anything, if an array of projects is empty
+         Else render a list of projects. Each has a brief description,
+         a list of buttons "like" and "dislike", and a comments box, 
+         in we the user can write, update or delete comments*/}
       {projects && (
         <ProjectListCss>
           {projects.map((item: IProject) => (
@@ -239,6 +277,7 @@ const ProjectList: FC = () => {
           ))}
         </ProjectListCss>
       )}
+      {/*A button "to top", which scrolls... to top, you are right*/}
       {toTop && <TopCss onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>Top</TopCss>}
     </>
   );
