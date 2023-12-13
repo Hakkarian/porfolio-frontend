@@ -2,6 +2,7 @@ import { AsyncThunkAction } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
 import { Dispatch, SetStateAction } from "react";
 
+// transferring react setEdit through components as a prop
 export type SetStateProp = Dispatch<SetStateAction<IBoolUser>>;
 
 export interface ISetState {
@@ -9,6 +10,8 @@ export interface ISetState {
 }
 
 export type ActionType = AsyncThunkAction<AxiosResponse<any, any> | undefined, IUpdUser, any>
+
+// interfaces for user, user upon registration, login and redux user state
 
 export interface IUser {
   username: string;

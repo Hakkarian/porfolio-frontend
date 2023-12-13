@@ -8,6 +8,8 @@ import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { ILogin } from "../../interfaces";
 import GoogleAuthentication from "../../components/GoogleAuthentication";
 
+// here we check if email and password are correct
+
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .matches(
@@ -29,7 +31,8 @@ const validationSchema = Yup.object().shape({
 const LoginPage: FC = () => {
   const dispatch: ThunkDispatch<RTCIceConnectionState, void, AnyAction> =
     useDispatch();
-
+  
+  // this function is used for logging in
   const handleSubmit = (values: ILogin, actions: FormikHelpers<ILogin>) => {
     const { email, password } = values;
     dispatch(login({ email, password }));
@@ -46,6 +49,7 @@ const LoginPage: FC = () => {
       onSubmit={handleSubmit}
     >
       {({ errors, values, touched, setFieldValue }) => (
+        // implemented form email, password fields, validation and google authentication
         <Form>
           <label>
             <div>

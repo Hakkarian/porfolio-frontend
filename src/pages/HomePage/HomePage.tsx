@@ -1,6 +1,8 @@
 import {FC} from 'react'
 import { AboutCss, FooterCss, HeroCss, HomeCss } from './HomePage.styled'
 
+// homepage is under construction
+
 const HomePage: FC = () => {
   return (
     <HomeCss>

@@ -1,3 +1,5 @@
+// interfaces of a project and redux project state
+
 export interface IProject {
     _id: string,
     title: string,

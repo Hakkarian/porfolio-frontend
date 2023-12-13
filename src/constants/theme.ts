@@ -1,5 +1,7 @@
 import { Theme } from "@emotion/react";
 
+// interfaces for light/dark theme
+
 export interface ILightTheme {
     link: string,
     linkHover: string

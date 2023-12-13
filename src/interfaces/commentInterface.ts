@@ -1,3 +1,4 @@
+// interfaces for comment, comment's redux state, and which of a project id they're belong to
 export interface IComment {
     _id: string,
     projectId: string,
