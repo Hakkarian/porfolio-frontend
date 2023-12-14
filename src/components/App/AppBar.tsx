@@ -15,11 +15,6 @@ export interface AppProps {
 const AppBar: FC<AppProps> = ({toggleTheme}) => {
   const { user } = useSelector(selectUser);
   const token = useSelector(selectToken);
-  const userone = useSelector(selectUser);
-
-  console.log(userone)
-
-  console.log(token)
 
     const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
 

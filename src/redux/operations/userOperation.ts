@@ -31,6 +31,9 @@ export const currenti = createAsyncThunk('user/userCurrent', async (_, { getStat
         // we're getting the current user from the database, 
         // saying that he is already logged in the application
         const { user } = getState() as any;
+        if (!user.token) {
+            throw Error
+        }
         // for this operation token is crucial
         const result = await userApi.current(user.token);
         return result
