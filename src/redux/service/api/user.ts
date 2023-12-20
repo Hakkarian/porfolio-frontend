@@ -48,9 +48,9 @@ const userApi = {
   // to return the user which has this token
   current: async (token: string) => {
     try {
+      console.log('tokenize', token);
       setToken(token);
       const { data: result } = await instance.get("/users/current");
-      console.log('backend', result)
       return result;
     } catch (error) {
       console.log(error);

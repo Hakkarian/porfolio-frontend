@@ -19,6 +19,7 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk('user/userLogin', async (data: ILogin, { rejectWithValue }) => {
     try {
         const result = await userApi.login(data);
+        console.log('login res', result)
         return result;
     } catch (error: any) {
         rejectWithValue(error.response)

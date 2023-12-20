@@ -64,9 +64,9 @@ const projectSlice = createSlice({
       .addCase(getLikedProjects.fulfilled, (state, { payload }) => {
         // same goes for favorite projects also
         state.isLoading = false;
-        state.favorite = payload.favorite as IProject[];
-        state.currentLikedPage = payload.currentLikedPage;
-        state.totalLikedPages = payload.totalLikedPages;
+          state.favorite = payload.favorite as IProject[];
+          state.currentLikedPage = payload.currentLikedPage;
+          state.totalLikedPages = payload.totalLikedPages;
       })
       .addCase(addProject.fulfilled, (state, action) => {
         // add a project through pushing it inside of the array

@@ -26,10 +26,10 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setGoogleUser: (state, {payload}) => {
+    setGoogleUser: (state, { payload }) => {
       state.token = payload.token;
       state.user = payload.user;
-    }
+    },
   },
   extraReducers: (builder) =>
     builder
@@ -54,10 +54,10 @@ const userSlice = createSlice({
         // and passing to the user state a user along with a token
         state.isLoading = false;
         state.user = payload.user;
-        state.token = payload.token;
+        state.token = payload.accessToken;
       })
-      .addCase(currenti.fulfilled, (state, {payload}) => {
-        state.isLoading = false
+      .addCase(currenti.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
         if (payload) {
           state.user = payload.user;
           state.token = payload.token;
@@ -75,7 +75,7 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.user = {} as any;
         state.token = "";
-      })
+      }),
 });
 
 export const { setGoogleUser } = userSlice.actions;
