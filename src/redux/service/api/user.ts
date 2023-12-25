@@ -6,6 +6,7 @@ const backendUrl = process.env.REACT_APP_API_URL;
 
 // create a basic instance for our apies
 export const instance = axios.create({
+  withCredentials: true,
   baseURL: backendUrl,
 });
 
@@ -37,7 +38,7 @@ const userApi = {
   login: async (data: ILogin) => {
     // to log in them
     try {
-      const { data: result } = await instance.post("/users/login", data);
+      const { data: result } = await instance.post(`/users/login`, data);
       return result;
     } catch (error) {
       console.log(error);
@@ -50,7 +51,9 @@ const userApi = {
     try {
       console.log('tokenize', token);
       setToken(token);
-      const { data: result } = await instance.get("/users/current");
+      const { data: result } = await instance.get(
+        `/users/current`
+      );
       return result;
     } catch (error) {
       console.log(error);
@@ -97,7 +100,7 @@ const userApi = {
   // an api method to log out the user
   logout: async () => {
     try {
-      const { data: result } = await instance.post(`/users/logout`);
+      const { data: result } = await instance.post(`${backendUrl}/users/logout`);
       // just discard a token of the user to end a session
       setToken("");
       return result;

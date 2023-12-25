@@ -7,7 +7,8 @@ import { selectToken } from '../../redux/selectors'
 // if allowed, proceed him to enter
 // if not simply redirect him to the user page
 const RestrictedView = () => {
-    const token = useSelector(selectToken);
+  const token = useSelector(selectToken);
+  console.log(token);
 
     if (token) {
         return <Navigate to="/user" />

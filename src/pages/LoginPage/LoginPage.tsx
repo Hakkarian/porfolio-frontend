@@ -36,7 +36,7 @@ const LoginPage: FC = () => {
   const handleSubmit = (values: ILogin, actions: FormikHelpers<ILogin>) => {
     const { email, password } = values;
     dispatch(login({ email, password }));
-    actions.resetForm();
+    // actions.resetForm();
   };
 
   return (
