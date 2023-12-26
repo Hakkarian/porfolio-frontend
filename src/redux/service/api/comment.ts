@@ -1,5 +1,4 @@
-import { instance, setToken } from "./user"
-
+import instance, {setToken} from "../http/instance";
 const commentsApi = {
   getAllComments: async (id: string) => {
     try {

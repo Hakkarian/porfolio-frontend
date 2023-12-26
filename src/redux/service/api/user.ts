@@ -1,27 +1,14 @@
-import axios from "axios";
 import { ILogin, IRegisterUser, IUpdUser } from "../../../interfaces";
+import instance, {setToken} from "../http/instance";
 
 // we're getting an address of the backend
 const backendUrl = process.env.REACT_APP_API_URL;
 
 // create a basic instance for our apies
-export const instance = axios.create({
-  withCredentials: true,
-  baseURL: backendUrl,
-});
 
 // generate a function setToken, which checks to see
 // if our authorization string has a bearer token
 // or just an empty string
-export const setToken = (token: string) => {
-  console.log('Im free')
-  if (token) {
-    instance.defaults.headers.authorization = `Bearer ${token}`;
-    return;
-  }
-  console.log('or else...')
-  instance.defaults.headers.authorization = ``;
-};
 
 // an object with multiple methods:
 // transfer the data to the database specific location

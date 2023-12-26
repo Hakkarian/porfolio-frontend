@@ -1,4 +1,4 @@
-import { instance, setToken } from "./user"
+import instance, {setToken} from "../http/instance";
 
 
 const projectApi = {
