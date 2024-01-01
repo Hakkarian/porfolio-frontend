@@ -53,14 +53,17 @@ const userSlice = createSlice({
         // we're turning off a loading indicator,
         // and passing to the user state a user along with a token
         state.isLoading = false;
-        state.user = payload.user;
-        state.token = payload.accessToken;
+        if (payload) {
+          state.user = payload.user;
+          state.token = payload.accessToken;
+        }
       })
       .addCase(currenti.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         if (payload) {
+          console.log('slice user', payload);
           state.user = payload.user;
-          state.token = payload.token;
+          state.token = payload.accessToken;
         }
       })
       .addCase(updUser.fulfilled, (state, { payload }) => {

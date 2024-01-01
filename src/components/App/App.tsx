@@ -6,8 +6,6 @@ import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import AppBar from './AppBar';
 import PrivateView from '../../views/PrivateView';
 import RestrictedView from '../../views/ResctrictedView';
-import { useSelector } from 'react-redux';
-import { selectToken } from '../../redux/selectors';
 import { setGoogleUser } from '../../redux/slice/userSlice';
 import { ContainerCss } from '../../utils';
 import { ThemeProvider } from '@emotion/react';
@@ -24,7 +22,7 @@ const ProfilePage = lazy(() => import("../../pages/ProfilePage"));
 
 const App: FC = () => {
   const [theme, setTheme] = useState('light');
-  const token = useSelector(selectToken);
+  const token = localStorage.getItem('token');
   const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -76,6 +74,8 @@ const App: FC = () => {
     }
   }
 
+  
+
   return (
     <>
       <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
@@ -88,7 +88,7 @@ const App: FC = () => {
               <Route index element={<HomePage />} />
               <Route path="/projects" element={<ProjectPage />} />
               <Route element={<PrivateView />}>
-                <Route path="/user" element={<ProfilePage />} />
+                <Route path='/user' element={<ProfilePage />} />
               </Route>
               <Route element={<RestrictedView />}>
                 <Route path="/register" element={<RegisterPage />} />

@@ -68,6 +68,7 @@ const initialValues = {
 
 const Profile: FC = () => {
   const { user } = useSelector(selectUser);
+  console.log('profile user', user.user);
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> =
     useDispatch();
   const [avatar, setAvatar] = useState<File | null>(null);

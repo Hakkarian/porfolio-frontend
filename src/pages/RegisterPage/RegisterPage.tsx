@@ -56,7 +56,7 @@ const RegisterPage: FC = () => {
     dispatch(register({ username, email, password })).then(() =>
       dispatch(login({ email, password }))
     );
-    actions.resetForm();
+    // actions.resetForm();
   };
 
   return (

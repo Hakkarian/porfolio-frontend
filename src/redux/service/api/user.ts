@@ -16,7 +16,7 @@ const userApi = {
   // to register a user
   register: async (data: IRegisterUser) => {
     try {
-      const { data: result } = await instance.post("/users/register", data);
+      const { data: result } = await instance.post("/users/register", data, {withCredentials: true});
       return result;
     } catch (error) {
       console.log(error);
@@ -25,22 +25,29 @@ const userApi = {
   login: async (data: ILogin) => {
     // to log in them
     try {
-      const { data: result } = await instance.post(`/users/login`, data);
+      const {data: result} = await instance.post(`/users/login`, data, {withCredentials: true});
+      localStorage.setItem('token', result.accessToken);
       return result;
     } catch (error) {
       console.log(error);
     }
   },
 
+  
   // here we're not passing any data, only user token
   // to return the user which has this token
-  current: async (token: string) => {
+  current: async () => {
     try {
-      console.log('tokenize', token);
-      setToken(token);
-      const { data: result } = await instance.get(
-        `/users/current`
-      );
+      const { data: result } = await instance.get(`/users/refresh`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log('refresh res', result);
+      localStorage.setItem('token', result.accessToken);
+      instance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
       return result;
     } catch (error) {
       console.log(error);
@@ -51,45 +58,40 @@ const userApi = {
   // if some field is empty, continue
   // until you find out which field must be changed
   updateInfo: async (data: IUpdUser, id: string, token: string) => {
+    console.log(`/users/${id}/update`);
     try {
-      setToken(token);
       const formData = new FormData();
-      const { username, email, location, birthday, phone, avatar } = data;
 
-      if (username) {
-        formData.append("username", username);
-      }
-      if (email) {
-        formData.append("email", email);
-      }
-      if (location) {
-        formData.append("location", location);
-      }
-      if (birthday) {
-        formData.append("birthday", birthday);
-      }
-      if (phone) {
-        formData.append("phone", phone);
-      }
-      if (avatar) {
-        formData.append("avatar", avatar as string | Blob);
+      for (let el in data) {
+        console.log(`${el}`);
+        if (data[el]) {
+          if (el !== "avatar") {
+            formData.append(`${el}`, data[el] as string);
+          } else {
+            console.log(`${el}`);
+            formData.append(`${el}`, data[el] as string | Blob);
+          }
+        }
       }
       // and update but the id of the user
       const { data: result } = await instance.patch(
         `/users/${id}/update`,
         formData
       );
+      console.log('upd res', result);
       return result;
     } catch (error) {
       console.log(error);
     }
   },
+  
   // an api method to log out the user
   logout: async () => {
     try {
-      const { data: result } = await instance.post(`${backendUrl}/users/logout`);
+      const { data: result } = await instance.post(`${backendUrl}/users/logout`, { withCredentials: true });
+      console.log('logout res', result);
       // just discard a token of the user to end a session
-      setToken("");
+      localStorage.removeItem('token');
       return result;
     } catch (error) {
       console.log(error);

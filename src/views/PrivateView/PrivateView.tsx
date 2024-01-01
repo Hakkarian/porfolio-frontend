@@ -1,17 +1,18 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { selectUser } from '../../redux/selectors'
+import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
+import { selectToken } from '../../redux/selectors';
 
 // in this private view check if user is allowed to access the following path
 // if allowed, proceed him to enter
 // if not simply redirect him to the login page
 const PrivateView = () => {
-    const user = useSelector(selectUser);
-    if (!user.token) {
+  const token = localStorage.getItem('token');
+    if (!token) {
         return <Navigate to="/login" />
     }
   return <Outlet />
 }
+
 
 export default PrivateView

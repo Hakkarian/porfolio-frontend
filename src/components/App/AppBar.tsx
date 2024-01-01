@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../redux/operations';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
-import { selectToken, selectUser } from '../../redux/selectors';
+import { selectUser } from '../../redux/selectors';
 import { AvatarUsername, HeaderCss, Nav, NavLinkCss, UserWrap } from './AppBar.styled';
 import { Button } from '../../shared/CssTools.styled';
 import DarkMode from '../DarkMode/DarkMode';
@@ -14,7 +14,9 @@ export interface AppProps {
 
 const AppBar: FC<AppProps> = ({toggleTheme}) => {
   const { user } = useSelector(selectUser);
-  const token = useSelector(selectToken);
+  console.log('appbar user', user)
+  
+  const token = localStorage.getItem('token');
 
     const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
 
@@ -28,7 +30,7 @@ const AppBar: FC<AppProps> = ({toggleTheme}) => {
           <Nav className="header__nav">
             <NavLinkCss to="/">Home</NavLinkCss>
             <NavLinkCss to="/projects">Projects</NavLinkCss>
-            <NavLinkCss to="/user">User</NavLinkCss>
+            <NavLinkCss to='/user'>User</NavLinkCss>
           </Nav>
           <UserWrap className="header__user-wrap">
             {user && (

@@ -27,16 +27,10 @@ export const login = createAsyncThunk('user/userLogin', async (data: ILogin, { r
 })
 
 // here we maintaining persistent connection between browser reloads
-export const currenti = createAsyncThunk('user/userCurrent', async (_, { getState, rejectWithValue }) => {
+export const currenti = createAsyncThunk('user/userCurrent', async (_, { rejectWithValue }) => {
     try {
-        // we're getting the current user from the database, 
-        // saying that he is already logged in the application
-        const { user } = getState() as any;
-        if (!user.token) {
-            throw Error
-        }
         // for this operation token is crucial
-        const result = await userApi.current(user.token);
+        const result = await userApi.current();
         return result
     } catch (error: any) {
         rejectWithValue(error.response)
@@ -48,8 +42,12 @@ export const updUser = createAsyncThunk('user/update', async (data: IUpdUser, { 
     try {
         // we're getting current user
         const { user } = getState() as any;
+        if (!user.user) {
+            console.log("there's no user")
+            return;
+        }
         // and updating him by his id and token
-        const result = await userApi.updateInfo(data, user.user.userId, user.token)
+        const result = await userApi.updateInfo(data, user.user._id, user.token)
         return result;
     } catch (error: any) {
         rejectWithValue(error.response);
