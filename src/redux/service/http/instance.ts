@@ -22,7 +22,9 @@ instance.interceptors.response.use((config) => {
       console.log('aufter')
       originalRequest._isRetry = true;
       try {
-      const { data: result } = await axios.get(`${backendUrl}/users/refresh`);
+      const { data: result } = await axios.get(`${backendUrl}/users/refresh`, {
+        withCredentials: true,
+      });
       console.log('herehe')
       localStorage.setItem("token", result.accessToken);
       return instance.request(originalRequest);
