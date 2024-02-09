@@ -20,7 +20,7 @@ import persistStore from "redux-persist/es/persistStore";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["token", "user"],
+  whitelist: ["user"],
 };
 
 // persisted reducer - special "frozen" reducer,

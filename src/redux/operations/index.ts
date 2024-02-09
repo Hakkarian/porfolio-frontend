@@ -1,4 +1,4 @@
-import { register, login, currenti, updUser, logoutUser } from './userOperation';
+import { register, login, refresh, updUser, logoutUser } from './userOperation';
 import {
   paginate,
   getLikedProjects,
@@ -9,4 +9,4 @@ import {
 } from "./projectOperation";
 import { getAllComments, addComment, updComment, delComment } from './commentOperation';
 
-export { register, login, currenti, updUser, logoutUser, paginate, getLikedProjects, getAllComments, addProject, addComment, updComment, delComment, updateProject, like, dislike };
+export { register, login, refresh, updUser, logoutUser, paginate, getLikedProjects, getAllComments, addProject, addComment, updComment, delComment, updateProject, like, dislike };

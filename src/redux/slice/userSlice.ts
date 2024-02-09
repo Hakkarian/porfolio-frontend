@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { currenti, login, logoutUser, register, updUser } from "../operations";
+import { refresh, login, logoutUser, register, updUser } from "../operations";
 import { IUserState } from "../../interfaces";
 import { pending, rejected } from "../../utils";
 
@@ -35,12 +35,12 @@ const userSlice = createSlice({
     builder
       .addCase(register.pending, pending)
       .addCase(login.pending, pending)
-      .addCase(currenti.pending, pending)
+      .addCase(refresh.pending, pending)
       .addCase(updUser.pending, pending)
       .addCase(logoutUser.pending, pending)
       .addCase(register.rejected, rejected)
       .addCase(login.rejected, rejected)
-      .addCase(currenti.rejected, rejected)
+      .addCase(refresh.rejected, rejected)
       .addCase(updUser.rejected, rejected)
       .addCase(logoutUser.rejected, rejected)
       .addCase(register.fulfilled, (state, { payload }) => {
@@ -58,10 +58,10 @@ const userSlice = createSlice({
           state.token = payload.accessToken;
         }
       })
-      .addCase(currenti.fulfilled, (state, { payload }) => {
+      .addCase(refresh.fulfilled, (state, { payload }) => {
         state.isLoading = false;
+        console.log('payload', payload);
         if (payload) {
-          console.log('slice user', payload);
           state.user = payload.user;
           state.token = payload.accessToken;
         }

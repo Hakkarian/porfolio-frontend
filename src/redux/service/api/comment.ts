@@ -1,4 +1,4 @@
-import instance, {setToken} from "../http/instance";
+import instance from "../http/instance";
 const commentsApi = {
   getAllComments: async (id: string) => {
     try {
@@ -10,7 +10,6 @@ const commentsApi = {
   },
   addComment: async (data: { content: string; id: string }, token: string) => {
     try {
-      setToken(token);
       const { data: result } = await instance.post(
         `projects/${data.id}/comments`,
         data
@@ -25,7 +24,6 @@ const commentsApi = {
     token: string
   ) => {
     try {
-      setToken(token);
       const { data: result } = await instance.patch(
         `projects/${data.projectId}/comments/${data.id}`,
         data
@@ -37,7 +35,6 @@ const commentsApi = {
   },
   deleteComment: async (data: { projectId: string, id: string }, token: string) => {
     try {
-      setToken(token);
       const {data: result} = await instance.delete(`/projects/${data.projectId}/comments/${data.id}`);
       return result;
     } catch (error) {

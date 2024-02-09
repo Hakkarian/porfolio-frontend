@@ -44,9 +44,7 @@ const LikedList: FC = () => {
   useEffect(() => {
       if (favorite.length !== 0) {
       dispatch(getLikedProjects({ page: currentLikedPage, limit: 4 }));
-    } else {
-      dispatch(getLikedProjects({ page: 1, limit: 4 }));
-    }
+    } 
   }, [dispatch, currentLikedPage]);
 
   // handle input writing

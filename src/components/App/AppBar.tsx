@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../redux/operations';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../redux/selectors';
+import { selectToken, selectUser } from '../../redux/selectors';
 import { AvatarUsername, HeaderCss, Nav, NavLinkCss, UserWrap } from './AppBar.styled';
 import { Button } from '../../shared/CssTools.styled';
 import DarkMode from '../DarkMode/DarkMode';
@@ -16,7 +16,7 @@ const AppBar: FC<AppProps> = ({toggleTheme}) => {
   const { user } = useSelector(selectUser);
   console.log('appbar user', user)
   
-  const token = localStorage.getItem('token');
+  const token = useSelector(selectToken);
 
     const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> = useDispatch();
 

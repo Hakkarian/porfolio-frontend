@@ -27,11 +27,12 @@ export const login = createAsyncThunk('user/userLogin', async (data: ILogin, { r
 })
 
 // here we maintaining persistent connection between browser reloads
-export const currenti = createAsyncThunk('user/userCurrent', async (_, { rejectWithValue }) => {
+export const refresh = createAsyncThunk('user/refresh', async (_, { rejectWithValue }) => {
     try {
         // for this operation token is crucial
         const result = await userApi.current();
-        return result
+        console.log('result payload', result);
+        return result;
     } catch (error: any) {
         rejectWithValue(error.response)
     }
@@ -47,7 +48,7 @@ export const updUser = createAsyncThunk('user/update', async (data: IUpdUser, { 
             return;
         }
         // and updating him by his id and token
-        const result = await userApi.updateInfo(data, user.user._id, user.token)
+        const result = await userApi.updateInfo(data, user.user._id)
         return result;
     } catch (error: any) {
         rejectWithValue(error.response);

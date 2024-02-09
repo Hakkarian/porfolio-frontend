@@ -1,7 +1,7 @@
 import { FC, lazy, Suspense, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { Routes, Route, useSearchParams } from 'react-router-dom';
-import { currenti } from '../../redux/operations';
+import { refresh } from '../../redux/operations';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import AppBar from './AppBar';
 import PrivateView from '../../views/PrivateView';
@@ -29,11 +29,10 @@ const App: FC = () => {
   const isDarkTheme = theme === 'dark';
 
   // handle being loginized even after reloads
-  useEffect(() => {
-    if (token) {
-      dispatch(currenti());
-    }
-  }, [dispatch, token])
+    useEffect(() => {
+        dispatch(refresh());
+    }, [dispatch]);
+
 
   // handle entrance for google user
   useEffect(() => {

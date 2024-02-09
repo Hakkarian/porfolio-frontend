@@ -62,6 +62,12 @@ export interface ILogin {
   password: string;
 }
 
+export interface IRegister {
+  username: string;
+  email: string;
+  password: string;
+}
+
 export interface IUserState {
   user: IUser | null;
   token: string;

@@ -41,7 +41,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "tscb": "tsc -w",
-    "cdev": "concurrently \"npm run tscb\" \"npm start\""
+    "cdev": "concurrently \"tsc -w\" \"npm start\""
   },
   "eslintConfig": {
     "extends": [

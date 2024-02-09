@@ -1,4 +1,4 @@
-import { SetStateProp, ISetState, ActionType, IUser, IUpdateUser, IRegisterUser, IUpdUser, IBoolUser, IRegisterPage, ILogin, IUserState } from './userInterface';
+import { SetStateProp, ISetState, ActionType, IUser, IUpdateUser, IRegisterUser, IUpdUser, IBoolUser, IRegisterPage, ILogin, IUserState, IRegister } from './userInterface';
 import { IProject, IProjectState, IUpdProj } from './projectInterface';
 import { IComment, ICommentState, CommentListProps } from './commentInterface';
 
@@ -13,6 +13,7 @@ export type {
   IBoolUser,
   IRegisterPage,
   ILogin,
+  IRegister,
   IProject,
   IUpdProj,
   IUserState,

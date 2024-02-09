@@ -1,4 +1,4 @@
-import instance, {setToken} from "../http/instance";
+import instance from "../http/instance";
 
 
 const projectApi = {
@@ -43,10 +43,12 @@ const projectApi = {
         formData.append("image", data.image);
       }
 
-      setToken(token);
       const { data: result } = await instance.patch(
         `/projects/${data.id}`,
-        formData
+        formData,
+        {
+          withCredentials: true,
+        }
       );
       return result;
     } catch (error) {
@@ -60,7 +62,10 @@ const projectApi = {
     try {
       const { data: result } = await instance.put(
         `/projects/${data.id}/like?page=${data.page}&limit=${data.limit}`,
-        data
+        data,
+        {
+          withCredentials: true,
+        }
       );
       console.log('liked api', result);
       return result;
