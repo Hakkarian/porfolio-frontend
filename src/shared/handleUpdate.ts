@@ -5,9 +5,9 @@ import { updUser } from '../redux/operations';
 
 
 // this function basically approves what you've just edited.
-const handleUpdate = (name: IUpdUser, user: string, setEdit: SetStateProp, dispatch: Dispatch<ActionType>) => {
+const handleUpdate = (model: IUpdUser, user: string, setEdit: SetStateProp, dispatch: Dispatch<ActionType>) => {
         // here we're using redux operation, which updates the user information with his credentials
-        dispatch(updUser(name))
+        dispatch(updUser(model));
         // after successful operation field becomes read-only
         setEdit(prevEdit => ({...prevEdit, [user]: false}))
 };

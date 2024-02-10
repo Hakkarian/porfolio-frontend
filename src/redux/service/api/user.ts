@@ -55,28 +55,32 @@ const userApi = {
   updateInfo: async (data: IUpdUser, id: string) => {
     console.log(`/users/${id}/update`);
     try {
-      const formData = new FormData();
+       const formData = new FormData();
+       const { username, email, location, birthday, phone, avatar } = data;
 
-  
-      for (let el in data) {
-        console.log(`${el}`);
-        if (data[el]) {
-          if (el !== "avatar") {
-            formData.append(`${el}`, data[el] as string);
-          } else {
-            console.log(`${el}`);
-            formData.append(`${el}`, data[el] as string | Blob);
-          }
-        }
-      }
-      // and update but the id of the user
-      const { data: result } = await instance.patch(
-        `/users/${id}/update`,
-        formData, {
-        withCredentials: true,
-      });
-      console.log('upd res', result);
-      return result;
+       if (username) {
+         formData.append("username", username);
+       }
+       if (email) {
+         formData.append("email", email);
+       }
+       if (location) {
+         formData.append("location", location);
+       }
+       if (birthday) {
+         formData.append("birthday", birthday);
+       }
+       if (phone) {
+         formData.append("phone", phone);
+       }
+       if (avatar) {
+         formData.append("avatar", avatar as string | Blob);
+       }
+       const { data: result } = await instance.patch(
+         `/users/${id}/update`,
+         formData
+       );
+       return result;
     } catch (error) {
       console.log(error);
     }

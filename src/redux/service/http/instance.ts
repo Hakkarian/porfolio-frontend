@@ -19,16 +19,13 @@ instance.interceptors.response.use((config) => {
   return config;
 }, async (error) => {
     const originalRequest = error.config;
-  console.log('befour', error.response.message);
     if (error.response.status == 401 && error.config && !error.config._isRetry) {
-      console.log('aufter')
       originalRequest._isRetry = true;
       try {
       const { data: result } = await axios.get(`${backendUrl}/users/refresh`, {
         withCredentials: true,
       });
         localStorage.setItem('accessToken', result.accessToken);
-        console.log('herehe');
       return instance.request(originalRequest);
     } catch (error) {
       console.log('User is unauthorized: ', error)
