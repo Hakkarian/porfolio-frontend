@@ -8,8 +8,6 @@ import { selectToken } from '../../redux/selectors';
 // if not simply redirect him to the login page
 const PrivateView = () => {
   const token = useSelector(selectToken);
-  console.log('private here', token)
-  console.log(!token)
     if (!token) {
         return <Navigate to="/login" />
     } else {

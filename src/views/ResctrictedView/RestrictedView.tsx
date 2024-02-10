@@ -9,9 +9,7 @@ import { selectToken } from '../../redux/selectors';
 const RestrictedView = () => {
   const token = useSelector(selectToken);
 
-  console.log(token)
   if (token) {
-      console.log('heyacha')
         return <Navigate to="/user" />
   } else {
     return <Outlet />;

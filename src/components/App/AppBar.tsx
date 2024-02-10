@@ -14,7 +14,6 @@ export interface AppProps {
 
 const AppBar: FC<AppProps> = ({toggleTheme}) => {
   const { user } = useSelector(selectUser);
-  console.log('appbar user', user)
   
   const token = useSelector(selectToken);
 

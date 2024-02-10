@@ -20,22 +20,24 @@ import persistStore from "redux-persist/es/persistStore";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["token", "user"],
+  whitelist: ["token", "user", "favorite"],
 };
 
 // persisted reducer - special "frozen" reducer,
 // which accepts a configuration and an original reducer
 
-const persistedReducer = persistReducer(persistConfig, userReducer);
+
 
 // rootReducer stores all possible reducers together,
 // forming a basic redux state
 
 const rootReducer = combineReducers({
-  user: persistedReducer,
+  user: userReducer,
   projects: projectReducer,
   comments: commentReducer,
 });
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // which is placed inside of the store configuration
 // using configureStore from a redux toolkit
@@ -45,7 +47,7 @@ const rootReducer = combineReducers({
 // where middleware allows for customizing the behavior of the store
 // devtools provide debugging capabilities
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
   devTools: { trace: true, traceLimit: 25 },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

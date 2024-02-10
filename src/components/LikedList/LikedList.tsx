@@ -38,13 +38,13 @@ const LikedList: FC = () => {
   const [selectedProject, setSelectedProject] = useState("");
   const [showComments, setShowComments] = useState(false);
   const [content, setContent] = useState("");
-  console.log('favorite array', favorite.length === 0)
 
   // if an array of favorite projects is empty, display 1 page of projects overall
   useEffect(() => {
       if (favorite.length !== 0) {
       dispatch(getLikedProjects({ page: currentLikedPage, limit: 4 }));
     } 
+      dispatch(getLikedProjects({ page: 1, limit: 4 }));
   }, [dispatch, currentLikedPage]);
 
   // handle input writing
@@ -94,7 +94,6 @@ const LikedList: FC = () => {
     e.stopPropagation();
     const { _id: projectId } = item;
     let { likes, liked } = item;
-    console.log('favorite')
     // we're removing like with help of the payload.
     // If a total amount of likes is equal to zero, nothing happens.Else decrease the amount by one
     const payloadRemoveLike = {
@@ -104,14 +103,12 @@ const LikedList: FC = () => {
       page: currentLikedPage,
       limit: 4,
     };
-    console.log('favorite user', user)
 
     // search for a liked user
     const likedUser = liked.find((item: string) => item === user._id);
     // trigger the reduction of likes, if user liked current project,
     // and reload the list of liked projects
     if (likedUser) {
-      console.log('liked indeed')
       dispatch(like(payloadRemoveLike));
       dispatch(
         getLikedProjects({

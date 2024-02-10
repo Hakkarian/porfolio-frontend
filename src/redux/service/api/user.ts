@@ -13,9 +13,7 @@ const userApi = {
   // to register a user
   register: async (data: IRegister) => {
     try {
-      console.log('before fetch')
       const { data: result } = await axios.post(`${backendUrl}/users/register`, data);
-      console.log('after fetch')
       return result;
     } catch (error) {
       console.log(error);
@@ -42,7 +40,6 @@ const userApi = {
       const { data: result } = await axios.get(`${backendUrl}/users/refresh`, {
         withCredentials: true,
       });
-      console.log(result, 'result');
       return result;
     } catch (error) {
       console.log(error);
@@ -53,28 +50,21 @@ const userApi = {
   // if some field is empty, continue
   // until you find out which field must be changed
   updateInfo: async (data: IUpdUser, id: string) => {
-    console.log(`/users/${id}/update`);
     try {
-       const formData = new FormData();
-       const { username, email, location, birthday, phone, avatar } = data;
-
-       if (username) {
-         formData.append("username", username);
-       }
-       if (email) {
-         formData.append("email", email);
-       }
-       if (location) {
-         formData.append("location", location);
-       }
-       if (birthday) {
-         formData.append("birthday", birthday);
-       }
-       if (phone) {
-         formData.append("phone", phone);
-       }
-       if (avatar) {
-         formData.append("avatar", avatar as string | Blob);
+      const formData = new FormData();
+      // iterate through an array of user credentials.
+       for (let el in data) {
+          // check if any element exist
+         if (data[el]) {
+           // if element is avatar
+           if (el !== "avatar") {
+             // append it to formData, and patch an axios request
+             formData.append(`${el}`, data[el] as string);
+           } else {
+            // else append any other element of credentials array
+             formData.append(`${el}`, data[el] as string | Blob);
+           }
+         }
        }
        const { data: result } = await instance.patch(
          `/users/${id}/update`,

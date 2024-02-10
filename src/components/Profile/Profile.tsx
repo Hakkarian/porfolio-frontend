@@ -68,7 +68,6 @@ const initialValues = {
 
 const Profile: FC = () => {
   const { user } = useSelector(selectUser);
-  console.log('profile user', user.user);
   const dispatch: ThunkDispatch<RTCIceConnectionState, null, AnyAction> =
     useDispatch();
   const [avatar, setAvatar] = useState<File | null>(null);
@@ -101,7 +100,6 @@ const Profile: FC = () => {
     values: IUpdUser
   ) => {
     const { name } = e.target as HTMLButtonElement;
-    console.log(name);
     // if the value is an avatar, pass its value the object with its name as a property
     // name as a second parameter
     // setEdit function as third

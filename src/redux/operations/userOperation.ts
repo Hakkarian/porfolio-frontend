@@ -19,7 +19,6 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk('user/userLogin', async (data: ILogin, { rejectWithValue }) => {
     try {
         const result = await userApi.login(data);
-        console.log('login res', result)
         return result;
     } catch (error: any) {
         rejectWithValue(error.response)
@@ -31,7 +30,6 @@ export const refresh = createAsyncThunk('user/refresh', async (_, { rejectWithVa
     try {
         // for this operation token is crucial
         const result = await userApi.current();
-        console.log('result payload', result);
         return result;
     } catch (error: any) {
         rejectWithValue(error.response)
@@ -44,7 +42,6 @@ export const updUser = createAsyncThunk('user/update', async (data: IUpdUser, { 
         // we're getting current user
         const { user } = getState() as any;
         if (!user.user) {
-            console.log("there's no user")
             return;
         }
         // and updating him by his id and token

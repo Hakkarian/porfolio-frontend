@@ -60,7 +60,6 @@ const userSlice = createSlice({
       })
       .addCase(refresh.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        console.log('payload', payload);
         if (payload) {
           state.user = payload.user;
           state.token = payload.accessToken;
