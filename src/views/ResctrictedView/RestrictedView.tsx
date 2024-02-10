@@ -8,12 +8,14 @@ import { selectToken } from '../../redux/selectors';
 // if not simply redirect him to the user page
 const RestrictedView = () => {
   const token = useSelector(selectToken);
-  console.log(token);
 
-    if (token) {
+  console.log(token)
+  if (token) {
+      console.log('heyacha')
         return <Navigate to="/user" />
+  } else {
+    return <Outlet />;
   }
-  return <Outlet />
 }
 
 export default RestrictedView

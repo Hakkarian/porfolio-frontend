@@ -27,7 +27,7 @@ const userApi = {
       const { data: result } = await axios.post(`${backendUrl}/users/login`, data, {
         withCredentials: true,
       });
-      localStorage.setItem('token', result.accessToken);
+      localStorage.setItem('accessToken', result.accessToken);
       return result;
     } catch (error) {
       console.log(error);
@@ -92,7 +92,7 @@ const userApi = {
         }
       );
       // just discard a token of the user to end a session
-      localStorage.removeItem('token');
+      localStorage.removeItem('accessToken');
       return result;
     } catch (error) {
       console.log(error);

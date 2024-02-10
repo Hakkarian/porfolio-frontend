@@ -8,8 +8,10 @@ const instance = axios.create({
   baseURL: backendUrl,
 });
 
-instance.interceptors.response.use((config) => {
-  instance.defaults.headers.authorization = `Bearer ${localStorage.getItem('token')}`;
+instance.interceptors.request.use((config) => {
+  console.log(config.headers.authorization);
+  config.headers.authorization = `Bearer ${localStorage.getItem('accessToken')}`;
+  console.log(config.headers.authorization, 'now?')
   return config;
 })
 
@@ -25,8 +27,8 @@ instance.interceptors.response.use((config) => {
       const { data: result } = await axios.get(`${backendUrl}/users/refresh`, {
         withCredentials: true,
       });
-      console.log('herehe')
-      localStorage.setItem("token", result.accessToken);
+        localStorage.setItem('accessToken', result.accessToken);
+        console.log('herehe');
       return instance.request(originalRequest);
     } catch (error) {
       console.log('User is unauthorized: ', error)

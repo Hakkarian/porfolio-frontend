@@ -9,10 +9,13 @@ import { selectToken } from '../../redux/selectors';
 const PrivateView = () => {
   const token = useSelector(selectToken);
   console.log('private here', token)
+  console.log(!token)
     if (!token) {
         return <Navigate to="/login" />
+    } else {
+      return <Outlet />;
     }
-  return <Outlet />
+  
 }
 
 
